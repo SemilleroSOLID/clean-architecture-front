@@ -1,0 +1,1 @@
+export const getEndpoint = (config, key) => `${config.host}${config.endpoint[key]}`
