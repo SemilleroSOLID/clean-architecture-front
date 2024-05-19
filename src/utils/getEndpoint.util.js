@@ -1,1 +1,2 @@
 export const getEndpoint = (config, key) => `${config.host}${config.endpoint[key]}`
+export const getEndpointServerApi = (config, controllerName, endpoint) => `${config.url}${config.controller[controllerName]}${config.endpoint[endpoint]}`
