@@ -3,6 +3,7 @@ import Example from "../components/example/example.component";
 import Home from "../components/home";
 import { links } from "../constants/links.constant";
 import Convocation from "../components/convocation";
+import Request from "../components/request";
 
 
 const router = createBrowserRouter([
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: links.convocation,
     element: <Convocation />,
+  },
+  {
+    path: links.request,
+    element: <Request />,
   },
 ]);
 
