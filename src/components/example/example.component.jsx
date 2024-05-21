@@ -57,4 +57,4 @@ const Example = () => {
   );
 };
 
-export default Example;
+export { Example };

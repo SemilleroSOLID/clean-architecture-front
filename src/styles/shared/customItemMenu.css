@@ -1,0 +1,21 @@
+.option{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.option__text:hover{
+    color: #899cb6;
+}
+
+.option__text{
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #163a6c;
+    font-family: "Lato";
+}
+

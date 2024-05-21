@@ -1,13 +1,43 @@
-import { links } from "../../constants/links.constant";
 
+import { Header } from "../shared/header.component";
+import { useRoutes, BrowserRouter } from "react-router-dom";
+import { Init } from "./children/init.component";
+import { Example } from "./../example/example.component";
+import { Convocation } from "./../convocation/index.component";
+
+
+const AppRoutes = () => {
+  let routes = useRoutes([
+    {
+      path: "/",
+      element: <Init />
+    },
+    {
+      path: "/example",
+      element: <Example />
+    },
+    {
+      path: "/convocation",
+      element: <Convocation />
+    },
+    {
+      path: "/request",
+      element: <Request />
+    }
+  ])
+  return routes;
+};
 const Home = () => {
+
+
   return (
-    <div style={{display: "flex", flexDirection: "column", gap: 10}}>
-      <ul>
-        <li><a type="primary" href={links.example}>example</a></li>
-        <li><a href={links.convocation}>convocations</a></li>
-        <li><a href={links.request}>request</a></li>
-      </ul>
+    <div className="home-container">
+      <Header />
+      <main className="home-container__main">
+        <BrowserRouter>
+          <AppRoutes />
+        </BrowserRouter>
+      </main>
     </div>
   );
 };

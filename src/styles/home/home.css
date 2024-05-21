@@ -1,0 +1,66 @@
+
+.home-container__header{
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #f8f2d0;
+    border-bottom: 1px solid #f8f2d0;
+}
+
+.home-container__logo{
+    width: 60px;
+    height: 60px;
+    margin-right: 60px;
+}
+
+.home-container__logo img {
+    width: 60px;
+    height: 60px;
+}
+
+.container-options{
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.home-container__main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh; /* Ajusta según sea necesario */
+    text-align: center;
+  }
+  
+  .main-content {
+    animation: fadeIn 2s ease-in-out;
+  }
+  
+  .main-content__title {
+    font-size: 2em;
+    color: #163a6c;
+    margin-bottom: 0.5em;
+  }
+  
+  .main-content__description,
+  .main-content__credits {
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+    color: #899cb6;
+  }
+  
+
+  .main-content__author {
+    text-decoration: none;
+    font-family: "Loto";
+  }
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

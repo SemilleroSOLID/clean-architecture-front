@@ -1,4 +1,4 @@
-import CreateConvocation from "./children/createConvocation.component";
+import { CreateConvocation } from "./createConvocation.component";
 
 const Convocation = () => {
   return (
@@ -9,4 +9,4 @@ const Convocation = () => {
   );
 };
 
-export default Convocation;
+export { Convocation };
