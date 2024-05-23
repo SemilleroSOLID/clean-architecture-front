@@ -1,4 +1,17 @@
 
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.home-container > div {
+  flex-shrink: 0; /* Asegura que el header no se encoja */
+}
+
+
 .home-container__header{
     display: flex;
     align-items: center;
@@ -27,9 +40,9 @@
 .home-container__main {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 60vh; /* Ajusta según sea necesario */
+    height: 100vh; /* Ajusta según sea necesario */
     text-align: center;
+    overflow: auto;
   }
   
   .main-content {
