@@ -1,24 +1,10 @@
 import { CONVOCATION_TABS } from "../../schema/convocationTabs.schema";
-import { Tabs } from "antd";
+import Tabs from "../common/tabs";
 
 const Convocation = () => {
   return (
     <div className="convocation-content">
-      <Tabs
-        defaultActiveKey="1"
-        centered
-        items={CONVOCATION_TABS.map(
-          (
-            { children: Component, icon: IconComponent, ...convocationTab },
-            index
-          ) => ({
-            ...convocationTab,
-            key: index,
-            icon: <IconComponent />,
-            children: <Component />,
-          })
-        )}
-      />
+      <Tabs title={"Convocatorias"} items={CONVOCATION_TABS} />
     </div>
   );
 };

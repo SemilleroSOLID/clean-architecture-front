@@ -6,20 +6,19 @@ export const CONVOCATION_TABS = [
     {
         label: "Consultar",
         icon: ExportOutlined,
-        children: CreateConvocation
+        component: CreateConvocation
 
     },
     {
         label: "Crear",
         icon: PlusCircleOutlined,
-        children: CreateConvocation
+        component: CreateConvocation
 
     },
     {
         label: "Tipos",
         icon: DatabaseOutlined,
-        children: ListConvocationTypes
-
+        component: ListConvocationTypes
     },
 
 ]

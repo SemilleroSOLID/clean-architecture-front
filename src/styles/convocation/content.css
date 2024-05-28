@@ -2,24 +2,8 @@
     background-color: #003b70;
     width: 60rem;
     margin: auto;
-    border-radius: 20px;
-    padding: 20px;
-}
-
-.ant-tabs,
-.ant-tabs-tab,
-.ant-tabs-tabpane {
-    color: white !important;
-}
-
-.ant-tabs-tab:hover {
-    color: #d7b860 !important;
-}
-
-.ant-tabs-tab-active{
-    color: #d7b860 !important;
-}
-
-.ant-tabs-nav {
-    border: none;
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 10px;
 }
