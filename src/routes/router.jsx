@@ -1,10 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import Example from "../components/example/example.component";
 import Home from "../components/home";
-import { links } from "../constants/links.constant";
+import { LINKS } from "../constants/links.constant";
 import Convocation from "../components/convocation";
 import Request from "../components/request";
-
 
 const router = createBrowserRouter([
   {
@@ -12,15 +11,15 @@ const router = createBrowserRouter([
     element: <Home />,
   },
   {
-    path: links.example,
+    path: LINKS.example.url,
     element: <Example />,
   },
   {
-    path: links.convocation,
+    path: LINKS.convocation.url,
     element: <Convocation />,
   },
   {
-    path: links.request,
+    path: LINKS.example.url,
     element: <Request />,
   },
 ]);

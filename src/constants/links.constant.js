@@ -1,5 +1,14 @@
-export const links = {
-  example: "/example",
-  convocation: "/convocation",
-  request: "/request",
+export const LINKS = {
+  example: {
+    url: "/example",
+    label: "Ejemplo"
+  },
+  convocation: {
+    url: "/convocation",
+    label: "Convocatoria"
+  },
+  request: {
+    url: "/request",
+    label: "Solicitud"
+  },
 };

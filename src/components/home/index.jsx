@@ -1,12 +1,20 @@
-import { links } from "../../constants/links.constant";
+import { LINKS } from "../../constants/links.constant";
 
 const Home = () => {
   return (
-    <div style={{display: "flex", flexDirection: "column", gap: 10}}>
+    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
       <ul>
-        <li><a type="primary" href={links.example}>example</a></li>
-        <li><a href={links.convocation}>convocations</a></li>
-        <li><a href={links.request}>request</a></li>
+        <li>
+          <a type="primary" href={LINKS.example.url}>
+            example
+          </a>
+        </li>
+        <li>
+          <a href={LINKS.convocation.url}>convocations</a>
+        </li>
+        <li>
+          <a href={LINKS.request.url}>request</a>
+        </li>
       </ul>
     </div>
   );
