@@ -33,9 +33,9 @@ const CreateConvocation = () => {
         />
       </div>
 
-      <div className="convocation-content requirement-create__section">
-        {!isEmpty(requirements) &&
-          requirements.map(
+      {!isEmpty(requirements) && (
+        <div className="convocation-content requirement-create__section">
+          {requirements.map(
             ({ name, requiredValue, conditional, description }, index) => (
               <Card key={index} className="requirement-create__card">
                 <DiffOutlined className="requirement-create__card--icon" />
@@ -56,7 +56,8 @@ const CreateConvocation = () => {
               </Card>
             )
           )}
-      </div>
+        </div>
+      )}
       <div className="convocation-content__basic ">
         <Button
           type="primary"
