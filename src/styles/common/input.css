@@ -3,3 +3,18 @@
     font-size: 15px;
     margin-bottom: 0.5rem;
 }
+
+.common_button {
+    border-radius: 6px;
+    color: #003b70;
+    background-color: #d7b860;
+    padding: 0 .5rem;
+    height: 45px;
+    width: 100%;
+}
+
+.common_button:hover{
+    color: #003b70 !important;
+    background-color: #d7b860 !important;
+    opacity: 0.8;
+}

@@ -1,0 +1,56 @@
+.requirement-create {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-column-gap: 1rem;
+}
+
+.requirement-create .name {
+    grid-area: 1 / 1 / 2 / 7;
+}
+
+.requirement-create .requiredValue {
+    grid-area: 2 / 1 / 3 / 4;
+}
+
+.requirement-create .conditional {
+    grid-area: 2 / 4 / 3 / 7;
+}
+
+.requirement-create .conditional .ant-input-number,
+.requirement-create .conditional .ant-input-number-input {
+    height: 45px;
+    width: 100%;
+}
+
+.requirement-create .description {
+    grid-area: 3 / 1 / 5 / 7;
+}
+
+.requirement-create .submit {
+    grid-area: 5 / 5 / 6 / 7;
+}
+
+.requirement-create .submit .ant-btn {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.requirement-create .ant-input {
+    height: 45px;
+}
+
+.requirement-create .description .ant-input {
+    padding-top: .6rem;
+    height: 150px;
+}
+
+.requirement-create__modal .ant-modal-content {
+    background-color: #003b70;
+    width: 40rem;
+    padding: 1.5rem 2rem;
+}
+
+.requirement-create__modal .ant-modal-close {
+    color: white;
+}

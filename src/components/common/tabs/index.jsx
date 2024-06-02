@@ -2,10 +2,17 @@ import PropTypes from "prop-types";
 import Tab from "./tab.component";
 import { useCallback, useMemo, useState } from "react";
 
-const Tabs = ({ title, items }) => {
+const Tabs = ({ title, items, onChangeTab, showContent = false }) => {
   const [active, setActive] = useState(0);
   const Content = useMemo(() => items[active].component, [active, items]);
-  const onClickTab = useCallback((index) => setActive(index), []);
+
+  const onClickTab = useCallback(
+    (index) => {
+      onChangeTab(index);
+      setActive(index);
+    },
+    [onChangeTab]
+  );
 
   return (
     <div className="tabs">
@@ -23,15 +30,19 @@ const Tabs = ({ title, items }) => {
             />
           ))}
       </div>
-      <div className="tabs__content">
-        <Content />
-      </div>
+      {showContent && (
+        <div className="tabs__content">
+          <Content />
+        </div>
+      )}
     </div>
   );
 };
 
 Tabs.propTypes = {
   items: PropTypes.array,
+  showContent: PropTypes.bool,
+  onChangeTab: PropTypes.func,
   title: PropTypes.string,
 };
 

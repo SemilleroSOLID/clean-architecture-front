@@ -5,7 +5,7 @@ const { Item } = Form;
 const InputWrapper = ({ label, input, name }) => {
   return (
     <div className={`input ${name}`}>
-      <div className="input-label">{label}</div>
+      {label && <div className="input-label">{label}</div>}
       <Item
         rules={[{ required: true, message: "Este campo es requerido" }]}
         name={name}

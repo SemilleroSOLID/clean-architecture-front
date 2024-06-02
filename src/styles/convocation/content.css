@@ -1,3 +1,9 @@
+.convocation {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
 .convocation-content {
     background-color: #003b70;
     width: 60rem;
@@ -6,4 +12,12 @@
     padding: 1.5rem 2rem;
     color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 10px;
+}
+
+.convocation-content__basic {
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    width: 64rem;
+    margin: auto;
 }
