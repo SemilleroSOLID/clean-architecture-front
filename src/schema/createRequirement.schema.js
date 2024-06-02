@@ -1,4 +1,5 @@
-import { InputNumber, Input } from 'antd';
+import { Input } from 'antd';
+import RequirementConditionInput from '../components/convocation/inputs/requirementConditionInput.component';
 const { TextArea } = Input;
 
 export const CREATE_REQUIREMENT = [
@@ -21,7 +22,7 @@ export const CREATE_REQUIREMENT = [
   {
     label: "Tipo de condicion",
     name: "conditional",
-    component: InputNumber,
+    component: RequirementConditionInput,
     childrenProps: {
       placeholder: "Ingrese la condicion"
     }

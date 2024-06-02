@@ -16,11 +16,7 @@
     grid-area: 2 / 4 / 3 / 7;
 }
 
-.requirement-create .conditional .ant-input-number,
-.requirement-create .conditional .ant-input-number-input {
-    height: 45px;
-    width: 100%;
-}
+
 
 .requirement-create .description {
     grid-area: 3 / 1 / 5 / 7;
@@ -36,7 +32,8 @@
     border-radius: 10px;
 }
 
-.requirement-create .ant-input {
+.requirement-create .ant-input,
+.requirement-create .conditional .ant-select {
     height: 45px;
 }
 

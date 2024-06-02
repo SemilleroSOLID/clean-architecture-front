@@ -1,16 +1,30 @@
 import { Select } from "antd";
+import { useEffect, useState } from "react";
+import { getConvocationTypes } from "../../../services/convocation.service";
 
 const ConvocationTypeInput = ({ ...props }) => {
+  const [convocationTypes, setConvocationTypes] = useState([]);
+
+  const getConvocationsTypes = () => {
+    getConvocationTypes()
+      .then((data) => {
+        setConvocationTypes(data);
+      })
+      .catch((error) => console.log(error));
+  };
+
+  useEffect(() => {
+    getConvocationsTypes();
+  }, []);
+
   return (
     <Select
       defaultValue={null}
       {...props}
-      options={[
-        { value: "jack", label: "Jack" },
-        { value: "lucy", label: "Lucy" },
-        { value: "Yiminghe", label: "yiminghe" },
-        { value: "disabled", label: "Disabled", disabled: true },
-      ]}
+      options={convocationTypes.map(({ id, convocationTypeName }) => ({
+        value: id,
+        label: convocationTypeName,
+      }))}
     />
   );
 };

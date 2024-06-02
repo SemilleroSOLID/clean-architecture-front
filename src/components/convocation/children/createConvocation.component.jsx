@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { CREATE_CONVOCATION } from "../../../schema/createConvocation.schema";
 import CommonForm from "../../common/inputs/form.component";
 import { Button, Card } from "antd";
@@ -10,17 +10,19 @@ import {
   BranchesOutlined,
 } from "@ant-design/icons";
 import { isEmpty } from "lodash";
+import { createConvocation } from "../../../services/convocation.service";
 
 const CreateConvocation = () => {
   const [requirements, setRequirements] = useState([]);
+  const handleFinish = useCallback((convocation) => {
+    createConvocation(convocation);
+  }, []);
+
   return (
     <>
       <div className="convocation-content">
         <CommonForm
-          onFinish={(data) => {
-            console.log(data);
-          }}
-          // form={form}
+          onFinish={handleFinish}
           id={"convocation-create"}
           onValuesChange={({ requirements }) => {
             requirements && setRequirements(requirements);
