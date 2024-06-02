@@ -1,10 +1,10 @@
 import axios from "axios";
 import { getEndpoint } from "../utils/getEndpoint.util.js";
-import { convocationConfig } from "../config/convocation.api.config.js";
+import { requirementConfig } from "../config/requirement.api.config.js";
 
-export const getConvocationTypes = async () => {
+export const getConditionRequirement = async () => {
   const response = await axios.get(
-    getEndpoint(convocationConfig, "getAllConvocationTypes")
+    getEndpoint(requirementConfig, "getAllConditionRequirements")
   );
   const customResponse = response.data;
   if (customResponse.codeState == 200) return customResponse.data;
@@ -13,15 +13,13 @@ export const getConvocationTypes = async () => {
   );
 };
 
-export const createConvocation = async (convocation) => {
-  const response = await axios.post(
-    getEndpoint(convocationConfig, "createConvocation"),
-    convocation
+export const getTypeRequirement = async () => {
+  const response = await axios.get(
+    getEndpoint(requirementConfig, "getAllRequirements")
   );
   const customResponse = response.data;
-  if (customResponse.codeState != 200) throw new Error(
+  if (customResponse.codeState == 200) return customResponse.data;
+  throw new Error(
     `An Error occours trying fetch the data ${customResponse.message}`
   );
-
 };
-
