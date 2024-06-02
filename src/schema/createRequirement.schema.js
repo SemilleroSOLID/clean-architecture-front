@@ -30,7 +30,7 @@ export const CREATE_REQUIREMENT = [
   },
   {
     label: "Tipo de requerimiento",
-    name: "requirementType",
+    name: "requirementId",
     component: RequirementTypeInput,
     childrenProps: {
       placeholder: "Tipo de requisito"

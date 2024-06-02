@@ -15,7 +15,7 @@ import { createConvocation } from "../../../services/convocation.service";
 const CreateConvocation = () => {
   const [requirements, setRequirements] = useState([]);
   const handleFinish = useCallback((convocation) => {
-    createConvocation(convocation);
+    createConvocation({ ...convocation, state: 1 });
   }, []);
 
   return (

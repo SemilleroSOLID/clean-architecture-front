@@ -5,8 +5,8 @@ const { TextArea } = Input;
 
 export const CREATE_CONVOCATION = [
   {
-    label: "Nombre convocatoria",
-    name: "createConvocation",
+    label: "Titulo",
+    name: "title",
     component: Input,
     childrenProps: {
       placeholder: "Ingrese el nombre de la convocatoria"
@@ -14,7 +14,7 @@ export const CREATE_CONVOCATION = [
   },
   {
     label: "Tipo de convocatoria",
-    name: "convocationType",
+    name: "type",
     component: ConvocationTypeInput,
     childrenProps: {
       placeholder: "Seleccione el tipo de convocatoria"
@@ -29,7 +29,7 @@ export const CREATE_CONVOCATION = [
     },
   },
   {
-    name: "requirements",
+    name: "convocationRequirements",
     component: ConvocationRequirement
   },
   {
@@ -42,7 +42,10 @@ export const CREATE_CONVOCATION = [
   },
   {
     label: "Fecha de fin",
-    name: "finishDate",
-    component: DatePicker
+    name: "endDate",
+    component: DatePicker,
+    childrenProps: {
+      format: 'YYYY-MM-DD'
+    },
   }
 ]
