@@ -1,6 +1,6 @@
 import { Select } from "antd";
 import { useEffect, useState } from "react";
-import { getTypeRequirement } from "../../../services/convocation.service";
+import { getTypeRequirement } from "../../../services/requirement.service";
 
 const RequirementTypeInput = ({ ...props }) => {
   const [requirementTypes, setRequirementTypes] = useState([]);

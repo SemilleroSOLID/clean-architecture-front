@@ -1,9 +1,9 @@
 import { Button, Modal } from "antd";
 import PropTypes from "prop-types";
 import { DoubleRightOutlined } from "@ant-design/icons";
-import CommonForm from "../../common/inputs/form.component";
+import CommonForm from "../common/inputs/form.component";
 import { useCallback, useState } from "react";
-import { CREATE_REQUIREMENT } from "../../../schema/createRequirement.schema";
+import { CREATE_REQUIREMENT } from "../../schema/createRequirement.schema";
 
 const ConvocationRequirement = ({ onChange, value = [] }) => {
   const [isOpenModal, setIsOpenModal] = useState(false);

@@ -28,7 +28,6 @@ const CreateConvocation = () => {
             requirements && setRequirements(requirements);
           }}
           className="convocation-create"
-          showSubmit={false}
           inputItems={CREATE_CONVOCATION}
         />
       </div>

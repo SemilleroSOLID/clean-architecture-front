@@ -1,6 +1,6 @@
 import { DatePicker, Input } from 'antd';
 import ConvocationTypeInput from '../components/convocation/inputs/convocationTypeInput.component';
-import ConvocationRequirement from '../components/convocation/children/createRequirement.component';
+import ConvocationRequirement from '../components/requirement/createRequirement.component';
 const { TextArea } = Input;
 
 export const CREATE_CONVOCATION = [

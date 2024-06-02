@@ -1,6 +1,6 @@
 import { Input } from 'antd';
-import RequirementConditionInput from '../components/convocation/inputs/requirementConditionInput.component';
-import RequirementTypeInput from '../components/convocation/inputs/requirementTypeInput.component';
+import RequirementConditionInput from '../components/requirement/inputs/requirementConditionInput.component';
+import RequirementTypeInput from '../components/requirement/inputs/requirementTypeInput.component';
 const { TextArea } = Input;
 
 export const CREATE_REQUIREMENT = [

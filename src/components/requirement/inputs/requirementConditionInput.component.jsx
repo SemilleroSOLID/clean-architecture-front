@@ -1,6 +1,6 @@
 import { Select } from "antd";
 import { useEffect, useState } from "react";
-import { getConditionRequirement } from "../../../services/convocation.service";
+import { getConditionRequirement } from "../../../services/requirement.service";
 
 const RequirementConditionInput = ({ ...props }) => {
   const [conditionRequirements, setConditionRequirements] = useState([]);
