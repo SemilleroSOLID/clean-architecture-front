@@ -8,6 +8,7 @@ const ConvocationTypeInput = ({ ...props }) => {
   const getConvocationsTypes = () => {
     getConvocationTypes()
       .then((data) => {
+        if(data != undefined)
         setConvocationTypes(data);
       })
       .catch((error) => console.log(error));

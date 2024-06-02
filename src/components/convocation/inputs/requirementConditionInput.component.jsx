@@ -8,6 +8,7 @@ const RequirementConditionInput = ({ ...props }) => {
   const getConditionRequirements = () => {
     getConditionRequirement()
       .then((data) => {
+        if(data != undefined)
         setConditionRequirements(data);
       })
       .catch((error) => console.log(error));
