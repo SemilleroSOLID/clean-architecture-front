@@ -24,8 +24,8 @@ const CreateConvocation = () => {
         <CommonForm
           onFinish={handleFinish}
           id={"convocation-create"}
-          onValuesChange={({ requirements }) => {
-            requirements && setRequirements(requirements);
+          onValuesChange={({ convocationRequirements }) => {
+            convocationRequirements && setRequirements(convocationRequirements);
           }}
           className="convocation-create"
           inputItems={CREATE_CONVOCATION}

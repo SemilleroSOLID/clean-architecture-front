@@ -7,6 +7,7 @@ export const CREATE_REQUIREMENT = [
   {
     label: "Nombre del requerimiento",
     name: "name",
+    className: "create-requirement__name",
     component: Input,
     childrenProps: {
       placeholder: "Ingrese el nombre del requerimiento"
@@ -15,6 +16,7 @@ export const CREATE_REQUIREMENT = [
   {
     label: "Valor requerido",
     name: "requiredValue",
+    className: "create-requirement__value",
     component: Input,
     childrenProps: {
       placeholder: "Ingrese el nvalor requerido"
@@ -23,6 +25,7 @@ export const CREATE_REQUIREMENT = [
   {
     label: "Tipo de condicion",
     name: "conditional",
+    className: "create-requirement__condition",
     component: RequirementConditionInput,
     childrenProps: {
       placeholder: "Seleccione la condicion"
@@ -31,6 +34,7 @@ export const CREATE_REQUIREMENT = [
   {
     label: "Tipo de requerimiento",
     name: "requirementId",
+    className: "create-requirement__type",
     component: RequirementTypeInput,
     childrenProps: {
       placeholder: "Tipo de requisito"
@@ -39,6 +43,7 @@ export const CREATE_REQUIREMENT = [
   {
     label: "Descripcion",
     name: "description",
+    className: "create-requirement__description",
     component: TextArea,
     childrenProps: {
       placeholder: "Ingrese la descripcion de la convocatoria"

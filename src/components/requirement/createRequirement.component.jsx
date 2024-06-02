@@ -32,7 +32,7 @@ const ConvocationRequirement = ({ onChange, value = [] }) => {
         />
       </Modal>
       <Button
-        className="requirements "
+        className="create-convocation__requirements"
         icon={<DoubleRightOutlined />}
         iconPosition="end"
         onClick={showModal}
