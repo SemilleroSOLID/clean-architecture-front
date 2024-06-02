@@ -22,9 +22,9 @@ const RequirementConditionInput = ({ ...props }) => {
     <Select
       defaultValue={null}
       {...props}
-      options={conditionRequirements.map(({ id, convocationTypeName }) => ({
+      options={conditionRequirements.map(({ id, conditionRequirementName }) => ({
         value: id,
-        label: convocationTypeName,
+        label: conditionRequirementName,
       }))}
     />
   );

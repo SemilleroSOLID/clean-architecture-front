@@ -21,9 +21,9 @@ const RequirementTypeInput = ({ ...props }) => {
     <Select
       defaultValue={null}
       {...props}
-      options={requirementTypes.map(({ id, convocationTypeName }) => ({
+      options={requirementTypes.map(({ id, requirementName }) => ({
         value: id,
-        label: convocationTypeName,
+        label: requirementName,
       }))}
     />
   );
