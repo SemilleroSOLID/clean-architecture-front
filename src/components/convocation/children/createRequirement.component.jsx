@@ -27,7 +27,7 @@ const ConvocationRequirement = ({ onChange, value = [] }) => {
             hiddeModal();
           }}
           className="requirement-create"
-          showSubmit={true}
+          submitLabel={"Agregar"}
           inputItems={CREATE_REQUIREMENT}
         />
       </Modal>

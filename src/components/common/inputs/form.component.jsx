@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import { Form, Button } from "antd";
 import InputWrapper from "./inputWrapper.component";
 
-const CommonForm = ({ inputItems, extra, showSubmit = false, ...props }) => {
+const CommonForm = ({ inputItems, extra, submitLabel, ...props }) => {
   return (
-    <Form {...props} >
+    <Form {...props}>
       {inputItems.map(
         ({ component: Input, childrenProps, ...props }, index) => (
           <InputWrapper
@@ -15,10 +15,10 @@ const CommonForm = ({ inputItems, extra, showSubmit = false, ...props }) => {
         )
       )}
       {extra}
-      {showSubmit && (
+      {submitLabel && (
         <Form.Item className="submit ">
           <Button type="primary" htmlType="submit" className="common_button">
-            submit
+            {submitLabel}
           </Button>
         </Form.Item>
       )}
@@ -28,7 +28,7 @@ const CommonForm = ({ inputItems, extra, showSubmit = false, ...props }) => {
 CommonForm.propTypes = {
   inputItems: PropTypes.array,
   extra: PropTypes.node,
-  showSubmit: PropTypes.bool,
+  submitLabel: PropTypes.string,
 };
 
 export default CommonForm;

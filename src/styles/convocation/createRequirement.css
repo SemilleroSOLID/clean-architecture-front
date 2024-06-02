@@ -9,14 +9,16 @@
 }
 
 .requirement-create .requiredValue {
-    grid-area: 2 / 1 / 3 / 4;
+    grid-area: 2 / 1 / 3 / 3;
 }
 
 .requirement-create .conditional {
-    grid-area: 2 / 4 / 3 / 7;
+    grid-area: 2 / 3 / 3 / 5;
 }
 
-
+.requirement-create .requirementType {
+    grid-area: 2 / 5 / 3 / 7;
+}
 
 .requirement-create .description {
     grid-area: 3 / 1 / 5 / 7;
@@ -33,7 +35,8 @@
 }
 
 .requirement-create .ant-input,
-.requirement-create .conditional .ant-select {
+.requirement-create .conditional .ant-select,
+.requirement-create .requirementType .ant-select  {
     height: 45px;
 }
 
@@ -44,7 +47,7 @@
 
 .requirement-create__modal .ant-modal-content {
     background-color: #003b70;
-    width: 40rem;
+    width: 45rem;
     padding: 1.5rem 2rem;
 }
 

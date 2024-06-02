@@ -7,22 +7,34 @@ export const getConvocationTypes = async () => {
     getEndpoint(convocationConfig, "getAllConvocationTypes")
   );
   const customResponse = response.data;
-  if (customResponse.codeState == 200)
-    throw new Error(
-      `An Error occours trying fetch the data ${customResponse.message}`
-    );
+  if (customResponse.codeState == 200) return customResponse.data;
+  throw new Error(
+    `An Error occours trying fetch the data ${customResponse.message}`
+  );
 };
 
 export const getConditionRequirement = async () => {
   const response = await axios.get(
-    getEndpoint(convocationConfig, "getConditionRequirement")
+    getEndpoint(convocationConfig, "getConditionRequirements")
   );
   const customResponse = response.data;
-  if (customResponse.codeState == 200)
-    throw new Error(
-      `An Error occours trying fetch the data ${customResponse.message}`
-    );
+  if (customResponse.codeState == 200) return customResponse.data;
+  throw new Error(
+    `An Error occours trying fetch the data ${customResponse.message}`
+  );
 };
+
+export const getTypeRequirement = async () => {
+  const response = await axios.get(
+    getEndpoint(convocationConfig, "getTypeRequirements")
+  );
+  const customResponse = response.data;
+  if (customResponse.codeState == 200) return customResponse.data;
+  throw new Error(
+    `An Error occours trying fetch the data ${customResponse.message}`
+  );
+};
+
 
 export const createConvocation = async (convocation) => {
   const response = await axios.post(

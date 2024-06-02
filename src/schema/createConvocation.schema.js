@@ -5,7 +5,7 @@ const { TextArea } = Input;
 
 export const CREATE_CONVOCATION = [
   {
-    label: "Crear convocatoria",
+    label: "Nombre convocatoria",
     name: "createConvocation",
     component: Input,
     childrenProps: {
