@@ -6,9 +6,6 @@ const Footer = () => {
   return (
     <footer className="layout-footer">
       <div className="layout-footer__company">
-        <div className="layout-footer__logo">
-          <img src="./src/assets/logo-uc-orange.png" alt="logo" />
-        </div>
         <div className="layout-footer__title">
           Sistema de Gestión de Servicios
         </div>
@@ -18,10 +15,15 @@ const Footer = () => {
           crean.
         </p>
       </div>
-
+      <div className="layout-footer__logo">
+        <img src="./src/assets/logo-uc-orange.png" alt="logo" />
+      </div>
       <div className="layout-footer__credits">
-        Creado en un semillero de principios SOLID por
-        <div className="layout-footer__credits--links">
+        <div className="layout-footer__title">
+          Creado en un semillero de principios SOLID por
+        </div>
+
+        <p className="layout-footer__credits--links">
           {creatorsKeys.map((key, index) => {
             const { name, github } = CREATORS[key];
             return (
@@ -30,7 +32,7 @@ const Footer = () => {
               </a>
             );
           })}
-        </div>
+        </p>
       </div>
     </footer>
   );

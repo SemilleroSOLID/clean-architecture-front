@@ -13,6 +13,18 @@ export const getConvocationTypes = async () => {
   );
 };
 
+export const getAllConvocations = async () => {
+  const response = await axios.get(
+    getEndpoint(convocationConfig, "getAllConvocations")
+  );
+  const customResponse = response.data;
+  if (customResponse.codeState == 200) return customResponse.data;
+  throw new Error(
+    `An Error occours trying fetch the data ${customResponse.message}`
+  );
+};
+
+
 export const createConvocation = async (convocation) => {
   const response = await axios.post(
     getEndpoint(convocationConfig, "createConvocation"),
@@ -22,6 +34,5 @@ export const createConvocation = async (convocation) => {
   if (customResponse.codeState != 200) throw new Error(
     `An Error occours trying fetch the data ${customResponse.message}`
   );
-
 };
 

@@ -4,7 +4,7 @@ body {
 }
 
 .layout-content {
-    min-height: calc(100vh - 400px);
+    min-height: calc(100vh - 350px);
     padding-top: 2rem;
     padding-bottom: 2rem;
 }
@@ -43,7 +43,7 @@ body {
 .layout-footer {
     background-color: #003B70;
     color: white;
-    height: 200px;
+    height: 130px;
     padding: 40px;
     display: grid;
     grid-auto-flow: column;
@@ -52,7 +52,9 @@ body {
     justify-content: space-around;
 }
 
-
+.layout-footer__logo {
+    text-align: center;
+}
 
 .layout-footer__logo img {
     height: 100px;
@@ -71,11 +73,11 @@ body {
 }
 
 .layout-footer__credits--links {
-    font-size: 16px;
-    margin-top: 20px;
+    font-size: 14px;
+    /* margin-top: 20px; */
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    /* gap: 5px; */
 }
 
 .layout-footer__credits--links a {
