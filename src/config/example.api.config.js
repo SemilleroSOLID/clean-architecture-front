@@ -4,3 +4,4 @@ export const exampleApi = {
     random: "random",
   },
 };
+

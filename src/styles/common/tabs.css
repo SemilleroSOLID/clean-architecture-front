@@ -1,0 +1,39 @@
+.tabs{
+width: 100%;
+}
+
+.tabs__title {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.tabs__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tabs__tab {
+    display: flex;
+    gap: 5px;
+    border-radius: 6px;
+    color: #003b70;
+    background-color: #d7b860;
+    opacity: 0.5;
+    min-width: 8rem;
+    justify-content: center;
+    align-items: center;
+    padding: 0 .5rem;
+    height: 2.4rem;
+    cursor: pointer;
+}
+
+
+.tabs__tab--active {
+    opacity: unset;
+}
+
+.tabs__content {
+    min-height: 20rem;
+    margin-top: 2rem;
+}
