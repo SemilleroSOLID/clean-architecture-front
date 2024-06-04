@@ -17,7 +17,6 @@ const ListConvocations = () => {
 
   return (
     <>
-    prueba
       <div className="convocation-list">
         {!isEmpty(convocations) &&
           convocations.map(({ title, ...convocation }, index) => {
