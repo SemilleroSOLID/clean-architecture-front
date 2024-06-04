@@ -1,0 +1,70 @@
+.convocation-create {
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(6, 1fr);
+    grid-column-gap: 1rem;
+}
+
+.requirement-create__card .ant-card{
+   background-color: #d7b860;
+   color: #003b70;
+}
+
+.convocation-create .create-convocation__type {
+    grid-area: 1 / 1 / 2 / 4;
+}
+
+.create-convocation__type .ant-select {
+    height: 45px;
+}
+
+.convocation-create .create-convocation__title {
+    grid-area: 1 / 4 / 2 / 7;
+}
+
+.create-convocation__title .ant-input {
+    height: 45px;
+}
+
+.convocation-create .create-convocation__startDate {
+    grid-area: 2 / 5 / 3 / 7;
+}
+
+.create-convocation__startDate .ant-picker,
+.create-convocation__endDate .ant-picker {
+    width: 100%;
+    height: 45px;
+}
+
+.convocation-create .create-convocation__endDate {
+    grid-area: 3 / 5 / 4 / 7;
+}
+
+.create-convocation__requirements {
+    grid-area: 4 / 5 / 5 / 7;
+    color: #003b70;
+    border: none;
+    height: 2.4rem;
+    width: 100%;
+    border-radius: 6px;
+    background-color: #d7b860;
+}
+
+.create-convocation__requirements:hover{
+    color: #003b70 !important;
+    background-color: #d7b860 !important;
+    opacity: 0.8;
+}
+
+
+.convocation-create .create-convocation__description {
+    grid-area: 2 / 1 / 4 / 5;
+}
+
+.create-convocation__description .ant-input {
+    height: 150px;
+}
+
+.convocation-create .submit {
+    grid-area: 4 / 1 / 5 / 3;
+}

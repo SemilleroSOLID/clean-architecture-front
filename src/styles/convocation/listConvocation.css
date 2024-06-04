@@ -1,0 +1,24 @@
+.convocation-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.convocation-list__card .ant-card-body {
+    color: #003b70;
+}
+
+.convocation-list__card--title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.convocation-list__card--item {
+
+    display: flex;
+    gap: 0.5rem;
+}
+
+.convocation-list__empty .ant-empty-description{
+    color: white;
+}

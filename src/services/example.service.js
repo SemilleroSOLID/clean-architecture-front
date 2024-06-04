@@ -1,5 +1,5 @@
 import axios from "axios";
-import { exampleApi } from "../constants/example.api.constant.js";
+import { exampleApi } from "../config/example.api.config.js";
 import { getEndpoint } from "../utils/getEndpoint.util.js";
 
 export const getRamdonDog = async () => {
