@@ -3,6 +3,7 @@ export const convocationConfig = {
   endpoint: {
     getAllConvocationTypes: "/getAllConvocationTypes",
     getAllConvocations: "/getAllConvocations",
+    getConvocationById: "/getConvocationById",
     createConvocation: "/createConvocation",
   }
 };

@@ -22,3 +22,24 @@
 .convocation-list__empty .ant-empty-description{
     color: white;
 }
+
+.convocation-detail {
+    color: #003b70;
+}
+
+.convocation-detail .ant-card-head-title {
+    color: #003b70;
+    font-size: 20px;
+}
+
+.convocation-detail__subtitle {
+    margin: 1.5rem 0 0.75rem;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.convocation-detail__loading {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}

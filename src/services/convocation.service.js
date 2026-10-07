@@ -24,6 +24,18 @@ export const getAllConvocations = async () => {
   );
 };
 
+export const getConvocationById = async (convocationId) => {
+  try {
+    const response = await axios.get(
+      `${getEndpoint(convocationConfig, "getConvocationById")}/${convocationId}`
+    );
+    return response.data.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message ?? "No se pudo cargar la convocatoria"
+    );
+  }
+};
 
 export const createConvocation = async (convocation) => {
   const response = await axios.post(
