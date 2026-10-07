@@ -36,3 +36,18 @@
 .requirement-create__card--description {
     grid-area: 4 / 3 / 5 / 6;
 }
+
+.requirement-create__card .ant-card-body {
+    position: relative;
+}
+
+.requirement-create__card--type {
+    font-size: 12px;
+    opacity: 0.75;
+}
+
+.requirement-create__card--remove {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}

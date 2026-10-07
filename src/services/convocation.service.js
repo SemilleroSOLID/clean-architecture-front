@@ -38,13 +38,18 @@ export const getConvocationById = async (convocationId) => {
 };
 
 export const createConvocation = async (convocation) => {
-  const response = await axios.post(
-    getEndpoint(convocationConfig, "createConvocation"),
-    convocation
-  );
-  const customResponse = response.data;
-  if (customResponse.codeState != 200) throw new Error(
-    `An Error occours trying fetch the data ${customResponse.message}`
-  );
+  try {
+    const response = await axios.post(
+      getEndpoint(convocationConfig, "createConvocation"),
+      convocation
+    );
+    return response.data.data;
+  } catch (error) {
+    const customResponse = error.response?.data;
+    const requestError = new Error(
+      customResponse?.message ?? "No se pudo guardar la convocatoria"
+    );
+    requestError.fieldErrors = customResponse?.data ?? {};
+    throw requestError;
+  }
 };
-

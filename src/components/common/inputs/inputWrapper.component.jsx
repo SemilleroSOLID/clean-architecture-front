@@ -2,13 +2,16 @@ import PropTypes from "prop-types";
 import { Form } from "antd";
 const { Item } = Form;
 
-const InputWrapper = ({ label, input, name, className }) => {
+const REQUIRED_RULE = { required: true, message: "Este campo es requerido" };
+
+const InputWrapper = ({ label, input, name, className, rules = [], optional = false, dependencies }) => {
   return (
     <div className={`input ${className}`}>
       {label && <div className="input-label">{label}</div>}
       <Item
-        rules={[{ required: true, message: "Este campo es requerido" }]}
+        rules={optional ? rules : [REQUIRED_RULE, ...rules]}
         name={name}
+        dependencies={dependencies}
       >
         {input}
       </Item>
@@ -20,6 +23,9 @@ InputWrapper.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   className: PropTypes.string,
+  rules: PropTypes.array,
+  optional: PropTypes.bool,
+  dependencies: PropTypes.array,
 };
 
 export default InputWrapper;

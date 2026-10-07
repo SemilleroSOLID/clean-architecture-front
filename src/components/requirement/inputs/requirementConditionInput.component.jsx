@@ -1,6 +1,7 @@
 import { Select } from "antd";
 import { useEffect, useState } from "react";
 import { getConditionRequirement } from "../../../services/requirement.service";
+import { CONDITION_LABELS } from "../../../constants/convocation.constant";
 
 const RequirementConditionInput = ({ ...props }) => {
   const [conditionRequirements, setConditionRequirements] = useState([]);
@@ -22,9 +23,9 @@ const RequirementConditionInput = ({ ...props }) => {
     <Select
       defaultValue={null}
       {...props}
-      options={conditionRequirements.map(({ id, conditionRequirementName }) => ({
-        value: id,
-        label: conditionRequirementName,
+      options={conditionRequirements.map(({ conditionRequirementName }) => ({
+        value: conditionRequirementName,
+        label: CONDITION_LABELS[conditionRequirementName] ?? conditionRequirementName,
       }))}
     />
   );
