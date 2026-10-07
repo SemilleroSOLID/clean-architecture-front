@@ -1,10 +1,11 @@
 import { DatePicker, Input } from 'antd';
 import ConvocationTypeInput from '../components/convocation/inputs/convocationTypeInput.component';
 import ConvocationRequirement from '../components/requirement/createRequirement.component';
-import { endDateRule, isNotAfterToday, startDateRule } from '../utils/convocationValidation.util';
+import { disabledStartDate, endDateRule, isNotAfterToday, startDateRule } from '../utils/convocationValidation.util';
 const { TextArea } = Input;
 
-export const CREATE_CONVOCATION = [
+// originalStartDate is only set when editing: it lets a convocation that already started keep its start date.
+export const buildConvocationFormItems = ({ onAddRequirement, originalStartDate = null }) => [
   {
     label: "Titulo",
     name: "title",
@@ -40,16 +41,19 @@ export const CREATE_CONVOCATION = [
     component: ConvocationRequirement,
     optional: true,
     rules: [{ required: true, type: "array", min: 1, message: "Agregue al menos un requisito" }],
+    childrenProps: {
+      onAdd: onAddRequirement
+    }
   },
   {
     label: "Fecha de inicio",
     name: "startDate",
     className: "create-convocation__startDate",
     component: DatePicker,
-    rules: [startDateRule],
+    rules: [startDateRule(originalStartDate)],
     childrenProps: {
       format: 'YYYY-MM-DD',
-      disabledDate: isNotAfterToday,
+      disabledDate: disabledStartDate(originalStartDate),
     },
   },
   {
@@ -65,3 +69,5 @@ export const CREATE_CONVOCATION = [
     },
   }
 ]
+
+export const CONVOCATION_FORM_FIELDS = buildConvocationFormItems({}).map(({ name }) => name);

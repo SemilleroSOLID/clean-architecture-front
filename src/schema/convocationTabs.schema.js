@@ -8,7 +8,7 @@ export const CONVOCATION_TABS = [
         label: "Consultar",
         icon: ExportOutlined,
         component: ListConvocations,
-        withContainer: true
+        withContainer: false
     },
     {
         label: "Crear",

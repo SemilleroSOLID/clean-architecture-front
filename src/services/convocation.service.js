@@ -37,6 +37,13 @@ export const getConvocationById = async (convocationId) => {
   }
 };
 
+const toRequestError = (error, defaultMessage) => {
+  const customResponse = error.response?.data;
+  const requestError = new Error(customResponse?.message ?? defaultMessage);
+  requestError.fieldErrors = customResponse?.data ?? {};
+  return requestError;
+};
+
 export const createConvocation = async (convocation) => {
   try {
     const response = await axios.post(
@@ -45,11 +52,18 @@ export const createConvocation = async (convocation) => {
     );
     return response.data.data;
   } catch (error) {
-    const customResponse = error.response?.data;
-    const requestError = new Error(
-      customResponse?.message ?? "No se pudo guardar la convocatoria"
+    throw toRequestError(error, "No se pudo guardar la convocatoria");
+  }
+};
+
+export const updateConvocation = async (convocationId, convocation) => {
+  try {
+    const response = await axios.put(
+      `${getEndpoint(convocationConfig, "updateConvocation")}/${convocationId}`,
+      convocation
     );
-    requestError.fieldErrors = customResponse?.data ?? {};
-    throw requestError;
+    return response.data.data;
+  } catch (error) {
+    throw toRequestError(error, "No se pudo actualizar la convocatoria");
   }
 };

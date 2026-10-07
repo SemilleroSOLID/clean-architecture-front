@@ -4,14 +4,20 @@ import { getTypeRequirement } from "../services/requirement.service";
 const MAX_GRADE = 5.0;
 
 // Same rules as the backend (CU-001): start after today, end at least one day after the start.
+// When editing, a start date that did not change is accepted even if it already passed (same rule as the backend).
+const isSameDay = (date, otherDate) => Boolean(date && otherDate) && date.isSame(otherDate, "day");
+
 export const isNotAfterToday = (date) => Boolean(date) && !date.isAfter(dayjs(), "day");
 
-export const startDateRule = {
+export const disabledStartDate = (originalStartDate) => (date) =>
+  isNotAfterToday(date) && !isSameDay(date, originalStartDate);
+
+export const startDateRule = (originalStartDate) => ({
   validator: (_, value) =>
-    isNotAfterToday(value)
+    isNotAfterToday(value) && !isSameDay(value, originalStartDate)
       ? Promise.reject(new Error("La fecha de inicio debe ser posterior a hoy"))
       : Promise.resolve(),
-};
+});
 
 export const endDateRule = ({ getFieldValue }) => ({
   validator: (_, value) => {

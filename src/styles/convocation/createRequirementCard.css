@@ -46,8 +46,9 @@
     opacity: 0.75;
 }
 
-.requirement-create__card--remove {
+.requirement-create__card--actions {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
+    display: flex;
 }

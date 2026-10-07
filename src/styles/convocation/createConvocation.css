@@ -68,3 +68,13 @@
 .convocation-create .submit {
     grid-area: 4 / 1 / 5 / 3;
 }
+
+.convocation-form__title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.convocation-form__actions {
+    gap: 1rem;
+}

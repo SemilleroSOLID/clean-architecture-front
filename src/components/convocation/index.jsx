@@ -10,15 +10,13 @@ const Convocation = () => {
     [currentTab]
   );
 
-  const wrapContent = useMemo(() => {
-    return withContainer ? (
-      <div className="convocation-content">
-        <Content />
-      </div>
-    ) : (
+  const wrapContent = withContainer ? (
+    <div className="convocation-content">
       <Content />
-    );
-  }, [withContainer]);
+    </div>
+  ) : (
+    <Content />
+  );
 
   return (
     <div className="convocation">

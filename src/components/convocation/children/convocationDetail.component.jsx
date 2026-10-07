@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Card, Descriptions, Result, Spin, Table, Tag } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Button, Card, Descriptions, Result, Space, Spin, Table, Tag } from "antd";
+import { ArrowLeftOutlined, EditOutlined } from "@ant-design/icons";
 import { getConvocationById } from "../../../services/convocation.service";
 import { getTypeRequirement } from "../../../services/requirement.service";
 import {
@@ -12,7 +12,7 @@ import {
 
 const formatDate = (date) => (date ? date.split("-").reverse().join("/") : "-");
 
-const ConvocationDetail = ({ convocationId, onBack }) => {
+const ConvocationDetail = ({ convocationId, onBack, onEdit }) => {
   const [convocation, setConvocation] = useState(null);
   const [requirementTypes, setRequirementTypes] = useState({});
   const [error, setError] = useState(null);
@@ -90,7 +90,18 @@ const ConvocationDetail = ({ convocationId, onBack }) => {
   ];
 
   return (
-    <Card className="convocation-detail" title={convocation.title} extra={backButton}>
+    <Card
+      className="convocation-detail"
+      title={convocation.title}
+      extra={
+        <Space>
+          <Button type="primary" icon={<EditOutlined />} onClick={() => onEdit(convocation)}>
+            Editar
+          </Button>
+          {backButton}
+        </Space>
+      }
+    >
       <Descriptions bordered column={2} items={detailItems} />
       <div className="convocation-detail__subtitle">Requisitos</div>
       <Table
@@ -108,6 +119,7 @@ const ConvocationDetail = ({ convocationId, onBack }) => {
 ConvocationDetail.propTypes = {
   convocationId: PropTypes.number.isRequired,
   onBack: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 export default ConvocationDetail;
