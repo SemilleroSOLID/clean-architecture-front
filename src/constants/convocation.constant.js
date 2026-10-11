@@ -14,6 +14,23 @@ export const CONVOCATION_TYPE_IDS = {
 export const CONVOCATION_STATE_LABELS = {
   OPEN: "Abierta",
   CLOSED: "Cerrada",
+  FINISHED: "Finalizada",
+  CANCELLED: "Cancelada",
+};
+
+export const CONVOCATION_STATE_COLORS = {
+  OPEN: "green",
+  CLOSED: "orange",
+  FINISHED: "blue",
+  CANCELLED: "red",
+};
+
+// Buttons shown in each state (diagramas/estados-convocatoria.md). The api enforces the same rules.
+export const CONVOCATION_ACTIONS_BY_STATE = {
+  OPEN: ["edit", "close", "cancel", "delete"],
+  CLOSED: ["reopen", "finish", "cancel"],
+  FINISHED: [],
+  CANCELLED: [],
 };
 
 export const CONDITION_LABELS = {

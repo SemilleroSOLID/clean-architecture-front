@@ -7,5 +7,9 @@ export const convocationConfig = {
     createConvocation: "/createConvocation",
     updateConvocation: "/updateConvocation",
     deleteConvocation: "/deleteConvocation",
+    closeConvocation: "/closeConvocation",
+    reopenConvocation: "/reopenConvocation",
+    finishConvocation: "/finishConvocation",
+    cancelConvocation: "/cancelConvocation",
   }
 };

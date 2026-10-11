@@ -75,3 +75,24 @@ export const deleteConvocation = async (convocationId) => {
     throw toRequestError(error, "No se pudo eliminar la convocatoria");
   }
 };
+
+const changeConvocationState = async (endpointKey, convocationId, body, defaultMessage) => {
+  try {
+    const response = await axios.put(`${getEndpoint(convocationConfig, endpointKey)}/${convocationId}`, body);
+    return response.data.data;
+  } catch (error) {
+    throw toRequestError(error, defaultMessage);
+  }
+};
+
+export const closeConvocation = (convocationId) =>
+  changeConvocationState("closeConvocation", convocationId, undefined, "No se pudo cerrar la convocatoria");
+
+export const reopenConvocation = (convocationId, endDate) =>
+  changeConvocationState("reopenConvocation", convocationId, { endDate }, "No se pudo reabrir la convocatoria");
+
+export const finishConvocation = (convocationId) =>
+  changeConvocationState("finishConvocation", convocationId, undefined, "No se pudo finalizar la convocatoria");
+
+export const cancelConvocation = (convocationId, reason) =>
+  changeConvocationState("cancelConvocation", convocationId, { reason }, "No se pudo cancelar la convocatoria");

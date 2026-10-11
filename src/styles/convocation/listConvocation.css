@@ -74,3 +74,11 @@
     justify-content: center;
     padding: 2rem;
 }
+
+.convocation-detail__actions {
+    margin-bottom: 1rem;
+}
+
+.convocation-detail__alert {
+    margin-bottom: 1rem;
+}

@@ -19,7 +19,7 @@ export const LIST_CONVOCATIONS_FIELDS = [
     { key: "state", icon: ExclamationCircleOutlined, render: stateLabel },
 ];
 
-const STATE_ORDER = ["OPEN", "CLOSED"];
+const STATE_ORDER = ["OPEN", "CLOSED", "FINISHED", "CANCELLED"];
 const byStartDate = (a, b) => a.startDate.localeCompare(b.startDate);
 const thenByStartDate = (compare) => (a, b) => compare(a, b) || byStartDate(a, b);
 
