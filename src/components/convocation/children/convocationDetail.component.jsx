@@ -9,8 +9,7 @@ import {
   CONVOCATION_STATE_LABELS,
   CONVOCATION_TYPE_LABELS,
 } from "../../../constants/convocation.constant";
-
-const formatDate = (date) => (date ? date.split("-").reverse().join("/") : "-");
+import { formatDate } from "../../../utils/date.util";
 
 const ConvocationDetail = ({ convocationId, onBack, onEdit, onDeleted }) => {
   const [convocation, setConvocation] = useState(null);

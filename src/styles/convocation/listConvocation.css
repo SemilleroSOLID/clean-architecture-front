@@ -14,9 +14,40 @@
 }
 
 .convocation-list__card--item {
-
     display: flex;
     gap: 0.5rem;
+}
+
+.convocation-list__card--description .convocation-list__card--text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.convocation-list__card--opens {
+    margin-top: 0.5rem;
+}
+
+.convocation-list__toolbar {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.convocation-list__control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    color: white;
+}
+
+.convocation-list__control:first-child {
+    flex: 1;
+}
+
+.convocation-list__control:not(:first-child) {
+    width: 12rem;
 }
 
 .convocation-list__empty .ant-empty-description{
