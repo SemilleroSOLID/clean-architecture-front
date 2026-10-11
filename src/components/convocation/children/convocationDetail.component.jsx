@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Card, Descriptions, Result, Space, Spin, Table, Tag } from "antd";
-import { ArrowLeftOutlined, EditOutlined } from "@ant-design/icons";
-import { getConvocationById } from "../../../services/convocation.service";
+import { Button, Card, Descriptions, Popconfirm, Result, Space, Spin, Table, Tag, message } from "antd";
+import { ArrowLeftOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { deleteConvocation, getConvocationById } from "../../../services/convocation.service";
 import { getTypeRequirement } from "../../../services/requirement.service";
 import {
   CONDITION_LABELS,
@@ -12,11 +12,24 @@ import {
 
 const formatDate = (date) => (date ? date.split("-").reverse().join("/") : "-");
 
-const ConvocationDetail = ({ convocationId, onBack, onEdit }) => {
+const ConvocationDetail = ({ convocationId, onBack, onEdit, onDeleted }) => {
   const [convocation, setConvocation] = useState(null);
   const [requirementTypes, setRequirementTypes] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const confirmDelete = async () => {
+    setDeleting(true);
+    try {
+      await deleteConvocation(convocationId);
+      onDeleted();
+    } catch (deleteError) {
+      messageApi.error(deleteError.message);
+      setDeleting(false);
+    }
+  };
 
   useEffect(() => {
     let ignore = false;
@@ -95,9 +108,22 @@ const ConvocationDetail = ({ convocationId, onBack, onEdit }) => {
       title={convocation.title}
       extra={
         <Space>
+          {contextHolder}
           <Button type="primary" icon={<EditOutlined />} onClick={() => onEdit(convocation)}>
             Editar
           </Button>
+          <Popconfirm
+            title="¿Eliminar esta convocatoria?"
+            description="También se eliminarán sus requisitos. Esta acción no se puede deshacer."
+            okText="Eliminar"
+            cancelText="Cancelar"
+            okButtonProps={{ danger: true, loading: deleting }}
+            onConfirm={confirmDelete}
+          >
+            <Button danger icon={<DeleteOutlined />}>
+              Eliminar
+            </Button>
+          </Popconfirm>
           {backButton}
         </Space>
       }
@@ -120,6 +146,7 @@ ConvocationDetail.propTypes = {
   convocationId: PropTypes.number.isRequired,
   onBack: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
+  onDeleted: PropTypes.func.isRequired,
 };
 
 export default ConvocationDetail;

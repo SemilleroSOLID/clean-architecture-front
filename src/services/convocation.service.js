@@ -67,3 +67,11 @@ export const updateConvocation = async (convocationId, convocation) => {
     throw toRequestError(error, "No se pudo actualizar la convocatoria");
   }
 };
+
+export const deleteConvocation = async (convocationId) => {
+  try {
+    await axios.delete(`${getEndpoint(convocationConfig, "deleteConvocation")}/${convocationId}`);
+  } catch (error) {
+    throw toRequestError(error, "No se pudo eliminar la convocatoria");
+  }
+};

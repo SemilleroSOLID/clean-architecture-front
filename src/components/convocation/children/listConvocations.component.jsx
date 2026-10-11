@@ -29,6 +29,11 @@ const ListConvocations = () => {
     setReloadKey((key) => key + 1);
   }, []);
 
+  const onConvocationDeleted = useCallback(() => {
+    messageApi.success("Convocatoria eliminada");
+    backToList();
+  }, [messageApi, backToList]);
+
   const onConvocationUpdated = useCallback(() => {
     setEditingConvocation(null);
     messageApi.success("Convocatoria actualizada");
@@ -50,6 +55,7 @@ const ListConvocations = () => {
           convocationId={selectedConvocationId}
           onBack={backToList}
           onEdit={setEditingConvocation}
+          onDeleted={onConvocationDeleted}
         />
       </div>
     );

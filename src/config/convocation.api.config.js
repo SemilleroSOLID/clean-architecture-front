@@ -6,5 +6,6 @@ export const convocationConfig = {
     getConvocationById: "/getConvocationById",
     createConvocation: "/createConvocation",
     updateConvocation: "/updateConvocation",
+    deleteConvocation: "/deleteConvocation",
   }
 };
