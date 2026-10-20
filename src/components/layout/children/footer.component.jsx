@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { CREATORS } from "../../../constants/creators.constant";
+import logoOrange from "../../../assets/logo-uc-orange.png";
 
 const Footer = () => {
   const creatorsKeys = useMemo(() => Object.keys(CREATORS), []);
@@ -16,7 +17,7 @@ const Footer = () => {
         </p>
       </div>
       <div className="layout-footer__logo">
-        <img src="./src/assets/logo-uc-orange.png" alt="logo" />
+        <img src={logoOrange} alt="logo" />
       </div>
       <div className="layout-footer__credits">
         <div className="layout-footer__title">

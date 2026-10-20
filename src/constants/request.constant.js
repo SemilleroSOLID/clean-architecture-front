@@ -12,3 +12,10 @@ export const REQUEST_STATE_LABELS = {
   REJECT: "Rechazada",
   ACCEPT: "Aprobada",
 };
+
+export const REQUEST_STATE_COLORS = {
+  PENDING: "orange",
+  ACTIVE: "green",
+  REJECT: "red",
+  ACCEPT: "blue",
+};

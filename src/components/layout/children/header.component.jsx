@@ -1,12 +1,13 @@
 import { useMemo } from "react";
 import { LINKS } from "../../../constants/links.constant";
+import logoBlue from "../../../assets/logo-uc-blue.png";
 
 const Header = () => {
   const linkKeys = useMemo(() => Object.keys(LINKS), []);
   return (
     <header className="layout-header">
       <div className="layout-header__logo">
-        <img src="./src/assets/logo-uc-blue.png" alt="logo" />
+        <img src={logoBlue} alt="logo" />
       </div>
       <div className="layout-header__options">
         {linkKeys.map((key, index) => {

@@ -4,6 +4,7 @@ import Home from "../components/home";
 import { LINKS } from "../constants/links.constant";
 import Convocation from "../components/convocation";
 import Request from "../components/request";
+import RequestAdmin from "../components/requestAdmin";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: LINKS.request.url,
     element: <Request />,
+  },
+  {
+    path: LINKS.requestAdmin.url,
+    element: <RequestAdmin />,
   },
 ]);
 

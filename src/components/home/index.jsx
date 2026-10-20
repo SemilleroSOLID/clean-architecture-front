@@ -15,6 +15,9 @@ const Home = () => {
         <li>
           <a href={LINKS.request.url}>request</a>
         </li>
+        <li>
+          <a href={LINKS.requestAdmin.url}>review requests</a>
+        </li>
       </ul>
     </div>
   );

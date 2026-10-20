@@ -68,3 +68,13 @@
 .request-result__unmet ul {
     padding-left: 1.25rem;
 }
+
+.request-admin__filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.request-admin__unmet td {
+    background-color: #fff2f0;
+}

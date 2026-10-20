@@ -11,4 +11,8 @@ export const LINKS = {
     url: "/request",
     label: "Solicitud"
   },
+  requestAdmin: {
+    url: "/admin/requests",
+    label: "Revisar solicitudes"
+  },
 };
