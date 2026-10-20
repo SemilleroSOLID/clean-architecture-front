@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Alert, Button, Card, Descriptions, Result, Spin, Table, Tag } from "antd";
+import { Alert, Button, Card, Descriptions, Result, Spin, Table, Tag, message } from "antd";
 import { ArrowLeftOutlined, CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { getRequestById } from "../../../services/request.service";
-import { REQUEST_STATE_COLORS, REQUEST_STATE_LABELS } from "../../../constants/request.constant";
+import { REQUEST_STATE_COLORS, REQUEST_STATE_LABELS, UNDECIDED_REQUEST_STATES } from "../../../constants/request.constant";
 import {
   CONVOCATION_STATE_COLORS,
   CONVOCATION_STATE_LABELS,
@@ -11,6 +11,7 @@ import {
 } from "../../../constants/convocation.constant";
 import { formatDate } from "../../../utils/date.util";
 import { describeCondition } from "../../../utils/request.util";
+import RequestDecision from "./requestDecision.component";
 
 const REQUIREMENT_COLUMNS = [
   { title: "Requisito", dataIndex: "name" },
@@ -49,6 +50,12 @@ const RequestDetail = ({ requestId, onBack }) => {
   const [request, setRequest] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const onDecided = (updatedRequest, successMessage) => {
+    setRequest(updatedRequest);
+    messageApi.success(successMessage);
+  };
 
   useEffect(() => {
     let ignore = false;
@@ -87,6 +94,8 @@ const RequestDetail = ({ requestId, onBack }) => {
 
   const { student } = request;
   const metCount = request.requirements.filter(({ met }) => met).length;
+  const unmetNames = request.requirements.filter(({ met }) => !met).map(({ name }) => name);
+  const undecided = UNDECIDED_REQUEST_STATES.includes(request.state);
   const total = request.requirements.length;
   const items = [
     { key: "student", label: "Estudiante", children: student.name },
@@ -118,6 +127,22 @@ const RequestDetail = ({ requestId, onBack }) => {
 
   return (
     <Card className="request" title={`Solicitud #${request.id}`} extra={backButton}>
+      {contextHolder}
+      {undecided && (
+        <RequestDecision request={request} onDecided={onDecided} onError={(errorMessage) => messageApi.error(errorMessage)} />
+      )}
+      {request.state === "REJECT" && (
+        <Alert
+          className="request-review__error"
+          type="error"
+          showIcon
+          title="Justificación del rechazo"
+          description={request.comment}
+        />
+      )}
+      {request.state === "ACCEPT" && (
+        <Alert className="request-review__error" type="success" showIcon title="La solicitud fue aprobada" />
+      )}
       <Descriptions bordered size="small" column={2} items={items} />
       <div className="request__subtitle">Verificación de requisitos</div>
       <Alert
@@ -128,6 +153,11 @@ const RequestDetail = ({ requestId, onBack }) => {
           metCount === total
             ? `Cumple los ${total} requisitos de la convocatoria`
             : `Cumple ${metCount} de ${total} requisitos de la convocatoria`
+        }
+        description={
+          metCount === total
+            ? undefined
+            : `No cumple: ${unmetNames.join(", ")}.${undecided ? " Revise estos requisitos antes de decidir." : ""}`
         }
       />
       <Table

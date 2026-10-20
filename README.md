@@ -43,7 +43,7 @@ Este repositorio es la interfaz del sistema. Consume la API REST de [clean-archi
 | Convocatorias · Crear | `/convocation` (pestaña *Crear*) | Formulario con título, tipo, descripción, fechas y requisitos, validado antes de enviarlo y con confirmación del resultado. |
 | Convocatorias · Tipos | `/convocation` (pestaña *Tipos*) | Tipos de convocatoria disponibles. |
 | Solicitudes | `/request` | Formulario de postulación en cuatro pasos: elegir estudiante y convocatoria abierta (con su información y requisitos), ingresar un valor por requisito con adjunto opcional, revisar y corregir antes de confirmar, y ver el resultado de la verificación automática: activa, o pendiente con la lista de requisitos que no cumple ([#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15)). |
-| Revisar solicitudes | `/admin/requests` | Sección del administrador: tabla con todas las solicitudes (estudiante, convocatoria, fecha y estado), filtros por convocatoria y estado, y el detalle de cada una con la verificación requisito por requisito ([#16](https://github.com/SemilleroSOLID/clean-architecture-api/issues/16)). |
+| Revisar solicitudes | `/admin/requests` | Sección del administrador: tabla con todas las solicitudes (estudiante, convocatoria, fecha y estado), filtros por convocatoria y estado, y el detalle de cada una con la verificación requisito por requisito ([#16](https://github.com/SemilleroSOLID/clean-architecture-api/issues/16)). Las pendientes se resaltan con los requisitos que no cumplen, y desde el detalle se aprueban o se rechazan con justificación obligatoria cuando la convocatoria está cerrada ([#17](https://github.com/SemilleroSOLID/clean-architecture-api/issues/17)). |
 
 ## Tecnologías
 
@@ -239,7 +239,7 @@ Así se construyó el formulario de postulación ([#15](https://github.com/Semil
 | Convocatorias: listar, detalle, crear, editar, eliminar, cambiar estado | ✅ |
 | Formulario de postulación del estudiante | ✅ [#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15) |
 | Ver todas las solicitudes (administrador) | ✅ [#16](https://github.com/SemilleroSOLID/clean-architecture-api/issues/16) |
-| Aprobar o rechazar solicitudes | ⏳ [#17](https://github.com/SemilleroSOLID/clean-architecture-api/issues/17) |
+| Aprobar o rechazar solicitudes | ✅ [#17](https://github.com/SemilleroSOLID/clean-architecture-api/issues/17) |
 | Historial del estudiante | ⏳ [#18](https://github.com/SemilleroSOLID/clean-architecture-api/issues/18) |
 | Login y rutas protegidas por rol | ⏳ [#23](https://github.com/SemilleroSOLID/clean-architecture-api/issues/23) |
 

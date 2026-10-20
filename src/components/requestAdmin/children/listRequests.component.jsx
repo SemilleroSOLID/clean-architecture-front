@@ -53,6 +53,18 @@ const ListRequests = ({ onSelect }) => {
       render: (state) => <Tag color={REQUEST_STATE_COLORS[state] ?? "default"}>{REQUEST_STATE_LABELS[state] ?? state}</Tag>,
     },
     {
+      title: "Requisitos no cumplidos",
+      dataIndex: "unmetRequirements",
+      render: (unmet) =>
+        unmet.length === 0
+          ? "-"
+          : unmet.map((name) => (
+              <Tag key={name} color="red">
+                {name}
+              </Tag>
+            )),
+    },
+    {
       title: "",
       key: "actions",
       align: "right",
@@ -94,6 +106,7 @@ const ListRequests = ({ onSelect }) => {
       <Table
         rowKey="id"
         size="middle"
+        rowClassName={({ state }) => (state === "PENDING" ? "request-admin__pending" : "")}
         loading={loading}
         columns={columns}
         dataSource={requests}

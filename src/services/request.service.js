@@ -32,3 +32,22 @@ export const getRequestById = async (requestId) => {
     throw toRequestError(error, "No se pudo cargar la solicitud");
   }
 };
+
+// The administrator decides a request of a closed convocation (#17); both return the updated detail.
+export const approveRequest = async (requestId) => {
+  try {
+    const response = await axios.put(`${getEndpoint(requestConfig, "approveRequest")}/${requestId}`);
+    return response.data.data;
+  } catch (error) {
+    throw toRequestError(error, "No se pudo aprobar la solicitud");
+  }
+};
+
+export const rejectRequest = async (requestId, comment) => {
+  try {
+    const response = await axios.put(`${getEndpoint(requestConfig, "rejectRequest")}/${requestId}`, { comment });
+    return response.data.data;
+  } catch (error) {
+    throw toRequestError(error, "No se pudo rechazar la solicitud");
+  }
+};
