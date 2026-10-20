@@ -21,6 +21,8 @@
 
 Este repositorio es la interfaz del sistema. Consume la API REST de [clean-architecture-api](https://github.com/SemilleroSOLID/clean-architecture-api), que es donde viven las reglas del negocio y donde está la **documentación general del sistema** (arquitectura completa, estados, diagramas). Este README explica cómo está construido el front por dentro.
 
+> **Para verlo funcionando** no hace falta instalar Node: con el `docker compose up -d --build` del API se levanta todo el sistema, este front incluido, en http://localhost:5173 ([Empezar rápido](https://github.com/SemilleroSOLID/clean-architecture-api#empezar-rápido)). Node solo hace falta para [desarrollar](#cómo-ejecutarlo).
+
 ## Contenido
 
 1. [Qué hace](#qué-hace)
@@ -33,20 +35,20 @@ Este repositorio es la interfaz del sistema. Consume la API REST de [clean-archi
 8. [Estados de la convocatoria en la interfaz](#estados-de-la-convocatoria-en-la-interfaz)
 9. [Cómo ejecutarlo](#cómo-ejecutarlo)
 10. [Cómo agregar una pantalla](#cómo-agregar-una-pantalla)
-11. [Estado](#estado)
+11. [Lo que no conviene copiar](#lo-que-no-conviene-copiar)
 
 ## Qué hace
 
 | Pantalla | Ruta | Rol | Qué permite |
 |---|---|---|---|
-| Iniciar sesión | `/login` | Público | Correo y contraseña; es lo único que se ve sin sesión ([#23](https://github.com/SemilleroSOLID/clean-architecture-api/issues/23)). |
+| Iniciar sesión | `/login` | Público | Correo y contraseña; es lo único que se ve sin sesión. |
 | Inicio | `/` | Ambos | Saludo y accesos a lo que puede hacer el rol de la sesión. |
 | Convocatorias · Consultar | `/convocation` | Ambos | Ver las convocatorias como tarjetas, ordenarlas y filtrarlas por tipo y estado, y abrir el detalle con sus requisitos. El administrador, además, edita, elimina, cierra, reabre, finaliza o cancela según el estado. |
 | Convocatorias · Crear | `/convocation` (pestaña *Crear*) | Administrador | Formulario con título, tipo, descripción, fechas y requisitos, validado antes de enviarlo y con confirmación del resultado. |
 | Convocatorias · Tipos | `/convocation` (pestaña *Tipos*) | Ambos | Tipos de convocatoria disponibles. |
-| Postularme | `/request` | Estudiante | Formulario de postulación en cuatro pasos: elegir una convocatoria abierta (con su información y requisitos), ingresar un valor por requisito con adjunto opcional, revisar y corregir antes de confirmar, y ver el resultado de la verificación automática: activa, o pendiente con la lista de requisitos que no cumple ([#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15)). |
-| Mis solicitudes | `/my-requests` | Estudiante | Historial del estudiante de la sesión: cada convocatoria a la que se postuló con su tipo, fechas y el estado de la solicitud, ordenable por fecha de postulación o por estado, y el motivo cuando fue rechazada. Tiene accesos para volver a las convocatorias o postularse ([#18](https://github.com/SemilleroSOLID/clean-architecture-api/issues/18)). Las solicitudes en revisión se pueden **retirar**, con confirmación ([#19](https://github.com/SemilleroSOLID/clean-architecture-api/issues/19)). |
-| Revisar solicitudes | `/admin/requests` | Administrador | Sección del administrador: tabla con todas las solicitudes (estudiante, convocatoria, fecha y estado), filtros por convocatoria y estado, y el detalle de cada una con la verificación requisito por requisito ([#16](https://github.com/SemilleroSOLID/clean-architecture-api/issues/16)). Las pendientes se resaltan con los requisitos que no cumplen, y desde el detalle se aprueban o se rechazan con justificación obligatoria cuando la convocatoria está cerrada ([#17](https://github.com/SemilleroSOLID/clean-architecture-api/issues/17)). |
+| Postularme | `/request` | Estudiante | Formulario de postulación en cuatro pasos: elegir una convocatoria abierta (con su información y requisitos), ingresar un valor por requisito con adjunto opcional, revisar y corregir antes de confirmar, y ver el resultado de la verificación automática: activa, o pendiente con la lista de requisitos que no cumple. |
+| Mis solicitudes | `/my-requests` | Estudiante | Historial del estudiante de la sesión: cada convocatoria a la que se postuló con su tipo, fechas y el estado de la solicitud, ordenable por fecha de postulación o por estado, y el motivo cuando fue rechazada. Tiene accesos para volver a las convocatorias o postularse. Las solicitudes en revisión se pueden **retirar**, con confirmación. |
+| Revisar solicitudes | `/admin/requests` | Administrador | Sección del administrador: tabla con todas las solicitudes (estudiante, convocatoria, fecha y estado), filtros por convocatoria y estado, y el detalle de cada una con la verificación requisito por requisito. Las pendientes se resaltan con los requisitos que no cumplen, y desde el detalle se aprueban o se rechazan con justificación obligatoria cuando la convocatoria está cerrada. |
 
 ## Tecnologías
 
@@ -157,7 +159,7 @@ sequenceDiagram
 
 ## Sesión y rutas por rol
 
-Desde [#23](https://github.com/SemilleroSOLID/clean-architecture-api/issues/23) todo el front pide iniciar sesión contra `POST /auth/login` del backend ([#22](https://github.com/SemilleroSOLID/clean-architecture-api/issues/22)).
+Todo el front pide iniciar sesión contra `POST /auth/login` del backend.
 
 ```mermaid
 flowchart LR
@@ -190,7 +192,7 @@ Ocultar un botón no es seguridad: el backend vuelve a revisar el rol y el dueñ
 
 El estudiante ya no se elige en una lista: es el de la sesión. El formulario de postulación y *Mis solicitudes* no mandan su id; el backend lo toma del token.
 
-Usuarios de desarrollo: `admin@ucaldas.test` / `Admin2026*` y cada estudiante con su correo (por ejemplo `laura.gomez@ucaldas.test`) / `Estudiante2026*`.
+Usuarios de desarrollo: `admin@ucaldas.test` / `Admin2026*` y cada estudiante con su correo (por ejemplo `laura.gomez@ucaldas.test`) / `Estudiante2026*`. Con `npm run dev` la pantalla de login los muestra; en el build de producción (el del compose) no aparecen.
 
 ## Decisiones de diseño
 
@@ -242,7 +244,7 @@ Los botones salen de `CONVOCATION_ACTIONS_BY_STATE`. Ocultarlos es solo una ayud
 
 ## Cómo ejecutarlo
 
-**Todo el sistema con Docker:** desde `clean-architecture-api`, `docker compose up -d --build` levanta también este front en http://localhost:5173 ([#27](https://github.com/SemilleroSOLID/clean-architecture-api/issues/27)). La imagen (`Dockerfile`) compila el front con `npm run build` y lo sirve con nginx (`nginx.conf`), que responde `index.html` en cualquier ruta para que funcionen `/login`, `/my-requests`, etc. La dirección del API se fija al construir con el argumento `VITE_API_HOST`.
+**Todo el sistema con Docker:** desde `clean-architecture-api`, `docker compose up -d --build` levanta también este front en http://localhost:5173. La imagen (`Dockerfile`) compila el front con `npm run build` y lo sirve con nginx (`nginx.conf`), que responde `index.html` en cualquier ruta para que funcionen `/login`, `/my-requests`, etc. La dirección del API se fija al construir con el argumento `VITE_API_HOST`.
 
 **Para desarrollar** con recarga automática: `docker compose stop front` en `clean-architecture-api` y luego, aquí, lo siguiente. Requisitos: Node.js 22 (ver `.nvmrc`) y la API corriendo en `http://localhost:3001` ([instrucciones](https://github.com/SemilleroSOLID/clean-architecture-api#cómo-ejecutar-todo-el-sistema)).
 
@@ -269,7 +271,7 @@ Abre http://localhost:5173.
 
 ## Cómo agregar una pantalla
 
-Así se construyó el formulario de postulación ([#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15)), y es el mismo camino para cualquier pantalla nueva:
+Así se construyó el formulario de postulación, y es el mismo camino para cualquier pantalla nueva:
 
 1. **config/** · `request.api.config.js` con el host `${VITE_API_HOST}/request` y el endpoint `createRequest`.
 2. **services/** · `request.service.js` con `createRequest(request)`, usando `getEndpoint` y traduciendo los errores con `toRequestError` (`utils/requestError.util.js`).
@@ -277,19 +279,18 @@ Así se construyó el formulario de postulación ([#15](https://github.com/Semil
 4. **components/request/children/** · `createRequest` coordina los pasos y usa `CommonForm`, el esquema y el servicio; cada paso es un componente pequeño (`selectConvocation`, `requestReview`, `requestResult`).
 5. **routes/** y **constants/links.constant.js** · solo si la pantalla necesita una ruta nueva.
 
-## Estado
+## Lo que no conviene copiar
 
-| Módulo | Estado |
-|---|---|
-| Convocatorias: listar, detalle, crear, editar, eliminar, cambiar estado | ✅ |
-| Formulario de postulación del estudiante | ✅ [#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15) |
-| Ver todas las solicitudes (administrador) | ✅ [#16](https://github.com/SemilleroSOLID/clean-architecture-api/issues/16) |
-| Aprobar o rechazar solicitudes | ✅ [#17](https://github.com/SemilleroSOLID/clean-architecture-api/issues/17) |
-| Historial del estudiante | ✅ [#18](https://github.com/SemilleroSOLID/clean-architecture-api/issues/18) |
-| Retirar una solicitud | ✅ [#19](https://github.com/SemilleroSOLID/clean-architecture-api/issues/19) |
-| Login y rutas protegidas por rol | ✅ [#23](https://github.com/SemilleroSOLID/clean-architecture-api/issues/23) |
+Algunas decisiones del front son atajos aceptados para mantener el proyecto simple. Están explicadas con los demás antipatrones del sistema en el [README del API](https://github.com/SemilleroSOLID/clean-architecture-api#antipatrones-dónde-cómo-y-por-qué); las que tocan este repositorio:
 
-El backlog completo está en los [issues de clean-architecture-api](https://github.com/SemilleroSOLID/clean-architecture-api/issues).
+| Qué | Por qué está así | Qué sería lo correcto |
+|---|---|---|
+| El token se guarda en `localStorage` (`utils/session.util.js`) | Es la forma más simple de que la sesión sobreviva al recargar con un JWT sin sesión en el servidor. | Una cookie `HttpOnly` emitida por el backend, para que un script inyectado (XSS) no pueda leer el token. |
+| Las rutas del API tienen verbos (`/getAllConvocations`, `/createConvocation`) | El front se construyó sobre la API original; cambiarlas obligaba a cambiar los dos lados a la vez. | Rutas REST (`GET /convocations`) en el API y en `config/`. |
+| La dirección del API queda fija en el build (`VITE_API_HOST`) | Vite reemplaza las variables `VITE_*` al compilar, así que la imagen sirve archivos estáticos. | Para otro servidor hay que reconstruir la imagen con otro `VITE_API_HOST`, o leer la dirección de un archivo de configuración al cargar la página. |
+| Algunas reglas se validan en el front y en el API | Es duplicación **a propósito**: el front avisa de inmediato y el API tiene la última palabra. | Mantenerla, pero sin agregar reglas que existan solo en el front. |
+
+Todas las issues del sistema están en [clean-architecture-api](https://github.com/SemilleroSOLID/clean-architecture-api/issues).
 
 ---
 
