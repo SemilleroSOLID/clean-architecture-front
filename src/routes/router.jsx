@@ -5,6 +5,7 @@ import { LINKS } from "../constants/links.constant";
 import Convocation from "../components/convocation";
 import Request from "../components/request";
 import RequestAdmin from "../components/requestAdmin";
+import StudentRequests from "../components/studentRequests";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: LINKS.request.url,
     element: <Request />,
+  },
+  {
+    path: LINKS.myRequests.url,
+    element: <StudentRequests />,
   },
   {
     path: LINKS.requestAdmin.url,

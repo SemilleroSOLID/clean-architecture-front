@@ -1,0 +1,133 @@
+import { useEffect, useMemo, useState } from "react";
+import { Alert, Button, Card, Empty, Select, Space, Table, Tag } from "antd";
+import { ArrowLeftOutlined, PlusOutlined } from "@ant-design/icons";
+import { getAllStudents } from "../../services/student.service";
+import { getRequestsByStudent } from "../../services/request.service";
+import { REQUEST_STATE_COLORS, REQUEST_STATE_LABELS } from "../../constants/request.constant";
+import { CONVOCATION_TYPE_LABELS } from "../../constants/convocation.constant";
+import { LINKS } from "../../constants/links.constant";
+import { STUDENT_REQUESTS_SORT_OPTIONS } from "../../schema/studentRequests.schema";
+import { formatDate } from "../../utils/date.util";
+
+const COLUMNS = [
+  { title: "Convocatoria", dataIndex: "convocationTitle" },
+  { title: "Tipo", dataIndex: "convocationType", render: (type) => CONVOCATION_TYPE_LABELS[type] ?? type },
+  { title: "Inicio", dataIndex: "convocationStartDate", render: formatDate },
+  { title: "Fin", dataIndex: "convocationEndDate", render: formatDate },
+  { title: "Me postulé el", dataIndex: "creationDate", render: formatDate },
+  {
+    title: "Estado",
+    dataIndex: "state",
+    render: (state) => <Tag color={REQUEST_STATE_COLORS[state] ?? "default"}>{REQUEST_STATE_LABELS[state] ?? state}</Tag>,
+  },
+  {
+    title: "Observación",
+    key: "comment",
+    render: (_, { state, comment }) =>
+      state === "REJECT" && comment ? (
+        <div className="student-requests__comment">
+          <b>Motivo del rechazo:</b> {comment}
+        </div>
+      ) : (
+        "-"
+      ),
+  },
+];
+
+// Student: history of every convocation applied to, with the state of each request (#18).
+const StudentRequests = () => {
+  const [students, setStudents] = useState([]);
+  const [studentId, setStudentId] = useState(undefined);
+  const [requests, setRequests] = useState([]);
+  const [sortBy, setSortBy] = useState(STUDENT_REQUESTS_SORT_OPTIONS[0].value);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    getAllStudents()
+      .then(setStudents)
+      .catch((fetchError) => setError(fetchError.message));
+  }, []);
+
+  useEffect(() => {
+    if (studentId === undefined) return undefined;
+    let ignore = false;
+    getRequestsByStudent(studentId)
+      .then((data) => {
+        if (ignore) return;
+        setRequests(data);
+        setError(null);
+      })
+      .catch((fetchError) => !ignore && setError(fetchError.message))
+      .finally(() => !ignore && setLoading(false));
+    return () => {
+      ignore = true;
+    };
+  }, [studentId]);
+
+  const changeStudent = (id) => {
+    setLoading(true);
+    setStudentId(id);
+  };
+
+  const sortedRequests = useMemo(() => {
+    const { compare } = STUDENT_REQUESTS_SORT_OPTIONS.find(({ value }) => value === sortBy);
+    return requests.toSorted(compare);
+  }, [requests, sortBy]);
+
+  return (
+    <Card
+      className="request student-requests"
+      title="Mis solicitudes"
+      extra={
+        <Space>
+          <Button icon={<ArrowLeftOutlined />} href={LINKS.convocation.url}>
+            Ver convocatorias
+          </Button>
+          <Button type="primary" icon={<PlusOutlined />} href={LINKS.request.url}>
+            Postularme
+          </Button>
+        </Space>
+      }
+    >
+      <Alert type="info" showIcon title="Mientras no exista el inicio de sesión (#23), elija el estudiante." />
+      <div className="request-admin__filters student-requests__toolbar">
+        <div className="request-select__control">
+          <label htmlFor="history-student">Estudiante</label>
+          <Select
+            id="history-student"
+            placeholder="Seleccione el estudiante"
+            value={studentId}
+            onChange={changeStudent}
+            options={students.map(({ id, name, program }) => ({ value: id, label: `${name} · ${program}` }))}
+          />
+        </div>
+        <div className="request-select__control">
+          <label htmlFor="history-sort">Ordenar por</label>
+          <Select
+            id="history-sort"
+            value={sortBy}
+            onChange={setSortBy}
+            options={STUDENT_REQUESTS_SORT_OPTIONS.map(({ value, label }) => ({ value, label }))}
+          />
+        </div>
+      </div>
+      {error && <Alert className="request-review__error" type="error" showIcon title={error} />}
+      {studentId === undefined ? (
+        <Empty description="Elija un estudiante para ver sus solicitudes" />
+      ) : (
+        <Table
+          rowKey="id"
+          size="middle"
+          loading={loading}
+          columns={COLUMNS}
+          dataSource={sortedRequests}
+          pagination={{ pageSize: 10, hideOnSinglePage: true }}
+          locale={{ emptyText: "Todavía no te has postulado a ninguna convocatoria" }}
+        />
+      )}
+    </Card>
+  );
+};
+
+export default StudentRequests;

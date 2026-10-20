@@ -86,3 +86,16 @@
 .request-decision {
     margin-bottom: 1rem;
 }
+
+.student-requests {
+    width: 70rem;
+}
+
+.student-requests__toolbar {
+    margin-top: 1rem;
+}
+
+.student-requests__comment {
+    color: #a8071a;
+    max-width: 22rem;
+}

@@ -11,6 +11,10 @@ export const LINKS = {
     url: "/request",
     label: "Solicitud"
   },
+  myRequests: {
+    url: "/my-requests",
+    label: "Mis solicitudes"
+  },
   requestAdmin: {
     url: "/admin/requests",
     label: "Revisar solicitudes"

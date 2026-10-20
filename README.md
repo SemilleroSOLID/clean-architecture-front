@@ -43,6 +43,7 @@ Este repositorio es la interfaz del sistema. Consume la API REST de [clean-archi
 | Convocatorias · Crear | `/convocation` (pestaña *Crear*) | Formulario con título, tipo, descripción, fechas y requisitos, validado antes de enviarlo y con confirmación del resultado. |
 | Convocatorias · Tipos | `/convocation` (pestaña *Tipos*) | Tipos de convocatoria disponibles. |
 | Solicitudes | `/request` | Formulario de postulación en cuatro pasos: elegir estudiante y convocatoria abierta (con su información y requisitos), ingresar un valor por requisito con adjunto opcional, revisar y corregir antes de confirmar, y ver el resultado de la verificación automática: activa, o pendiente con la lista de requisitos que no cumple ([#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15)). |
+| Mis solicitudes | `/my-requests` | Historial del estudiante: cada convocatoria a la que se postuló con su tipo, fechas y el estado de la solicitud, ordenable por fecha de postulación o por estado, y el motivo cuando fue rechazada. Tiene accesos para volver a las convocatorias o postularse ([#18](https://github.com/SemilleroSOLID/clean-architecture-api/issues/18)). |
 | Revisar solicitudes | `/admin/requests` | Sección del administrador: tabla con todas las solicitudes (estudiante, convocatoria, fecha y estado), filtros por convocatoria y estado, y el detalle de cada una con la verificación requisito por requisito ([#16](https://github.com/SemilleroSOLID/clean-architecture-api/issues/16)). Las pendientes se resaltan con los requisitos que no cumplen, y desde el detalle se aprueban o se rechazan con justificación obligatoria cuando la convocatoria está cerrada ([#17](https://github.com/SemilleroSOLID/clean-architecture-api/issues/17)). |
 
 ## Tecnologías
@@ -110,7 +111,8 @@ src/
 │   │   └── inputs/             ← selector de tipo de convocatoria
 │   ├── requirement/            ← modal y tarjeta para agregar requisitos
 │   ├── request/                ← postulación: selección, requisitos, revisión y resultado
-│   └── requestAdmin/           ← administrador: lista de solicitudes con filtros y detalle
+│   ├── requestAdmin/           ← administrador: lista de solicitudes con filtros, detalle y decisión
+│   └── studentRequests/        ← estudiante: historial de sus solicitudes
 ├── schema/                     ← formularios, pestañas y opciones de la lista como datos
 ├── constants/                  ← etiquetas y colores de estados y tipos, acciones por estado, rutas
 ├── services/                   ← convocation, requirement, request y student
@@ -240,7 +242,7 @@ Así se construyó el formulario de postulación ([#15](https://github.com/Semil
 | Formulario de postulación del estudiante | ✅ [#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15) |
 | Ver todas las solicitudes (administrador) | ✅ [#16](https://github.com/SemilleroSOLID/clean-architecture-api/issues/16) |
 | Aprobar o rechazar solicitudes | ✅ [#17](https://github.com/SemilleroSOLID/clean-architecture-api/issues/17) |
-| Historial del estudiante | ⏳ [#18](https://github.com/SemilleroSOLID/clean-architecture-api/issues/18) |
+| Historial del estudiante | ✅ [#18](https://github.com/SemilleroSOLID/clean-architecture-api/issues/18) |
 | Login y rutas protegidas por rol | ⏳ [#23](https://github.com/SemilleroSOLID/clean-architecture-api/issues/23) |
 
 El backlog completo está en los [issues de clean-architecture-api](https://github.com/SemilleroSOLID/clean-architecture-api/issues).

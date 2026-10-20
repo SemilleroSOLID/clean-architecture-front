@@ -24,3 +24,6 @@ export const REQUEST_STATE_COLORS = {
 export const UNDECIDED_REQUEST_STATES = ["PENDING", "ACTIVE"];
 
 export const REJECTION_COMMENT_MAX_LENGTH = 500;
+
+// Order of the states when the history is sorted by state: first the ones waiting for a decision.
+export const REQUEST_STATE_ORDER = ["PENDING", "ACTIVE", "ACCEPT", "REJECT"];

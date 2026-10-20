@@ -51,3 +51,13 @@ export const rejectRequest = async (requestId, comment) => {
     throw toRequestError(error, "No se pudo rechazar la solicitud");
   }
 };
+
+// History of a student (#18): every request with the data of its convocation, newest first.
+export const getRequestsByStudent = async (studentId) => {
+  try {
+    const response = await axios.get(`${getEndpoint(requestConfig, "getRequestsByStudent")}/${studentId}`);
+    return response.data.data;
+  } catch (error) {
+    throw toRequestError(error, "No se pudieron cargar las solicitudes");
+  }
+};
