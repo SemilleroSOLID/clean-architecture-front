@@ -242,7 +242,9 @@ Los botones salen de `CONVOCATION_ACTIONS_BY_STATE`. Ocultarlos es solo una ayud
 
 ## Cómo ejecutarlo
 
-Requisitos: Node.js 22 (ver `.nvmrc`) y la API corriendo en `http://localhost:3001` ([instrucciones](https://github.com/SemilleroSOLID/clean-architecture-api#cómo-ejecutar-todo-el-sistema)).
+**Todo el sistema con Docker:** desde `clean-architecture-api`, `docker compose up -d --build` levanta también este front en http://localhost:5173 ([#27](https://github.com/SemilleroSOLID/clean-architecture-api/issues/27)). La imagen (`Dockerfile`) compila el front con `npm run build` y lo sirve con nginx (`nginx.conf`), que responde `index.html` en cualquier ruta para que funcionen `/login`, `/my-requests`, etc. La dirección del API se fija al construir con el argumento `VITE_API_HOST`.
+
+**Para desarrollar** con recarga automática: `docker compose stop front` en `clean-architecture-api` y luego, aquí, lo siguiente. Requisitos: Node.js 22 (ver `.nvmrc`) y la API corriendo en `http://localhost:3001` ([instrucciones](https://github.com/SemilleroSOLID/clean-architecture-api#cómo-ejecutar-todo-el-sistema)).
 
 ```bash
 npm install
