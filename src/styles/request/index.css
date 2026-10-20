@@ -1,0 +1,70 @@
+.request {
+    width: 60rem;
+    margin: auto;
+    color: #003b70;
+}
+
+.request .ant-card-head-title {
+    color: #003b70;
+    font-size: 20px;
+}
+
+.request__steps {
+    margin-bottom: 1.5rem;
+}
+
+.request__subtitle {
+    margin: 1.25rem 0 0.75rem;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.request__loading {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.request__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.request-select__controls {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.request-select__control {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-weight: 600;
+}
+
+.request-form .input-label {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.request-form__attachment {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.request-review__error {
+    margin-bottom: 1rem;
+}
+
+.request-result__unmet {
+    color: #003b70;
+}
+
+.request-result__unmet ul {
+    padding-left: 1.25rem;
+}

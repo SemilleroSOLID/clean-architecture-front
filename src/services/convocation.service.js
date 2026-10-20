@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getEndpoint } from "../utils/getEndpoint.util.js";
 import { convocationConfig } from "../config/convocation.api.config.js";
+import { toRequestError } from "../utils/requestError.util.js";
 
 export const getConvocationTypes = async () => {
   const response = await axios.get(
@@ -35,13 +36,6 @@ export const getConvocationById = async (convocationId) => {
       error.response?.data?.message ?? "No se pudo cargar la convocatoria"
     );
   }
-};
-
-const toRequestError = (error, defaultMessage) => {
-  const customResponse = error.response?.data;
-  const requestError = new Error(customResponse?.message ?? defaultMessage);
-  requestError.fieldErrors = customResponse?.data ?? {};
-  return requestError;
 };
 
 export const createConvocation = async (convocation) => {

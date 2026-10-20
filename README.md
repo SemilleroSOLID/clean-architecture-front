@@ -42,7 +42,7 @@ Este repositorio es la interfaz del sistema. Consume la API REST de [clean-archi
 | Convocatorias · Consultar | `/convocation` | Ver las convocatorias como tarjetas, ordenarlas y filtrarlas por tipo y estado. Abrir el detalle con sus requisitos y, desde ahí, editar, eliminar, cerrar, reabrir, finalizar o cancelar según el estado. |
 | Convocatorias · Crear | `/convocation` (pestaña *Crear*) | Formulario con título, tipo, descripción, fechas y requisitos, validado antes de enviarlo y con confirmación del resultado. |
 | Convocatorias · Tipos | `/convocation` (pestaña *Tipos*) | Tipos de convocatoria disponibles. |
-| Solicitudes | `/request` | Reservada para el formulario de postulación ([#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15)). |
+| Solicitudes | `/request` | Formulario de postulación en cuatro pasos: elegir estudiante y convocatoria abierta (con su información y requisitos), ingresar un valor por requisito con adjunto opcional, revisar y corregir antes de confirmar, y ver el resultado de la verificación automática: activa, o pendiente con la lista de requisitos que no cumple ([#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15)). |
 
 ## Tecnologías
 
@@ -108,12 +108,12 @@ src/
 │   │   ├── children/           ← lista, detalle, formulario, acciones por estado
 │   │   └── inputs/             ← selector de tipo de convocatoria
 │   ├── requirement/            ← modal y tarjeta para agregar requisitos
-│   └── request/                ← página de solicitudes (en construcción)
+│   └── request/                ← postulación: selección, requisitos, revisión y resultado
 ├── schema/                     ← formularios, pestañas y opciones de la lista como datos
 ├── constants/                  ← etiquetas y colores de estados y tipos, acciones por estado, rutas
-├── services/                   ← convocation.service.js, requirement.service.js
+├── services/                   ← convocation, requirement, request y student
 ├── config/                     ← host y endpoints de cada recurso de la API
-├── utils/                      ← formato de fechas, reglas de validación, getEndpoint
+├── utils/                      ← fechas, validaciones, getEndpoint, toRequestError y utilidades de la solicitud
 └── styles/                     ← CSS por módulo
 ```
 
@@ -222,12 +222,12 @@ Abre http://localhost:5173.
 
 ## Cómo agregar una pantalla
 
-Ejemplo: el formulario de postulación ([#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15)).
+Así se construyó el formulario de postulación ([#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15)), y es el mismo camino para cualquier pantalla nueva:
 
 1. **config/** · `request.api.config.js` con el host `${VITE_API_HOST}/request` y el endpoint `createRequest`.
-2. **services/** · `request.service.js` con `createRequest(request)`, usando `getEndpoint` y traduciendo los errores igual que `toRequestError`.
-3. **schema/** · los campos del formulario como datos, uno por requisito de la convocatoria.
-4. **components/request/children/** · el componente, que usa `CommonForm`, el esquema y el servicio.
+2. **services/** · `request.service.js` con `createRequest(request)`, usando `getEndpoint` y traduciendo los errores con `toRequestError` (`utils/requestError.util.js`).
+3. **schema/** · `createRequest.schema.js` describe los campos como datos: uno por requisito de la convocatoria, más su adjunto opcional.
+4. **components/request/children/** · `createRequest` coordina los pasos y usa `CommonForm`, el esquema y el servicio; cada paso es un componente pequeño (`selectConvocation`, `requestReview`, `requestResult`).
 5. **routes/** y **constants/links.constant.js** · solo si la pantalla necesita una ruta nueva.
 
 ## Estado
@@ -235,7 +235,7 @@ Ejemplo: el formulario de postulación ([#15](https://github.com/SemilleroSOLID/
 | Módulo | Estado |
 |---|---|
 | Convocatorias: listar, detalle, crear, editar, eliminar, cambiar estado | ✅ |
-| Formulario de postulación del estudiante | ⏳ [#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15) |
+| Formulario de postulación del estudiante | ✅ [#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15) |
 | Revisión de solicitudes del administrador e historial del estudiante | ⏳ [#16](https://github.com/SemilleroSOLID/clean-architecture-api/issues/16), [#18](https://github.com/SemilleroSOLID/clean-architecture-api/issues/18) |
 | Login y rutas protegidas por rol | ⏳ [#23](https://github.com/SemilleroSOLID/clean-architecture-api/issues/23) |
 

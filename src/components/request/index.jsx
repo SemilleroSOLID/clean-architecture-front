@@ -1,12 +1,9 @@
-import CreateRequest from "./children/createRequest.componenet";
-const Request = () => {
-    return (
-      <div>
-        Request content
-        <CreateRequest />
-      </div>
-    );
-  };
-  
-  export default Request;
-  
+import CreateRequest from "./children/createRequest.component";
+
+const Request = () => (
+  <div className="request-page">
+    <CreateRequest />
+  </div>
+);
+
+export default Request;
