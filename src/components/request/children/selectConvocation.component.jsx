@@ -1,27 +1,12 @@
 import PropTypes from "prop-types";
-import { Alert, Empty, Select } from "antd";
+import { Empty, Select } from "antd";
 import { CONVOCATION_TYPE_LABELS } from "../../../constants/convocation.constant";
 import ConvocationSummary from "./convocationSummary.component";
 
-// Step 1: who applies (temporary until the login of #23) and to which open convocation.
-const SelectConvocation = ({ students, convocations, studentId, convocation, onStudentChange, onConvocationChange }) => (
+// Step 1: the open convocation the student of the session applies to.
+const SelectConvocation = ({ convocations, convocation, onConvocationChange }) => (
   <div className="request-select">
-    <Alert
-      type="info"
-      showIcon
-      title="Mientras no exista el inicio de sesión (#23), elija el estudiante que se postula."
-    />
     <div className="request-select__controls">
-      <div className="request-select__control">
-        <label htmlFor="request-student">Estudiante</label>
-        <Select
-          id="request-student"
-          placeholder="Seleccione el estudiante"
-          value={studentId}
-          onChange={onStudentChange}
-          options={students.map(({ id, name, program }) => ({ value: id, label: `${name} · ${program}` }))}
-        />
-      </div>
       <div className="request-select__control">
         <label htmlFor="request-convocation">Convocatoria</label>
         <Select
@@ -42,11 +27,8 @@ const SelectConvocation = ({ students, convocations, studentId, convocation, onS
 );
 
 SelectConvocation.propTypes = {
-  students: PropTypes.array.isRequired,
   convocations: PropTypes.array.isRequired,
-  studentId: PropTypes.number,
   convocation: PropTypes.object,
-  onStudentChange: PropTypes.func.isRequired,
   onConvocationChange: PropTypes.func.isRequired,
 };
 

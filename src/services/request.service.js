@@ -52,20 +52,20 @@ export const rejectRequest = async (requestId, comment) => {
   }
 };
 
-// History of a student (#18): every request with the data of its convocation, newest first.
-export const getRequestsByStudent = async (studentId) => {
+// History of the student of the session (#18, #23): every request with the data of its convocation, newest first.
+export const getMyRequests = async () => {
   try {
-    const response = await axios.get(`${getEndpoint(requestConfig, "getRequestsByStudent")}/${studentId}`);
+    const response = await axios.get(getEndpoint(requestConfig, "getMyRequests"));
     return response.data.data;
   } catch (error) {
     throw toRequestError(error, "No se pudieron cargar las solicitudes");
   }
 };
 
-// The student withdraws one of his requests still in review (#19); returns the updated row of the history.
-export const cancelRequest = async (requestId, studentId) => {
+// The student of the session withdraws one of his requests still in review (#19); returns the updated row of the history.
+export const cancelRequest = async (requestId) => {
   try {
-    const response = await axios.put(`${getEndpoint(requestConfig, "cancelRequest")}/${requestId}`, { studentId });
+    const response = await axios.put(`${getEndpoint(requestConfig, "cancelRequest")}/${requestId}`);
     return response.data.data;
   } catch (error) {
     throw toRequestError(error, "No se pudo retirar la solicitud");

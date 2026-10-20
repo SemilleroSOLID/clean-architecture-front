@@ -4,7 +4,7 @@ export const requestConfig = {
     createRequest: "/createRequest",
     getAllRequests: "/getAllRequests",
     getRequestById: "/getRequestById",
-    getRequestsByStudent: "/getRequestsByStudent",
+    getMyRequests: "/getMyRequests",
     approveRequest: "/approveRequest",
     rejectRequest: "/rejectRequest",
     cancelRequest: "/cancelRequest",

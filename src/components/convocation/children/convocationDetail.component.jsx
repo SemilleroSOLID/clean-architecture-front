@@ -13,8 +13,10 @@ import {
 } from "../../../constants/convocation.constant";
 import { formatDate } from "../../../utils/date.util";
 import ConvocationActions from "./convocationActions.component";
+import { useAuth } from "../../../hooks/useAuth";
 
 const ConvocationDetail = ({ convocationId, onBack, onEdit, onDeleted }) => {
+  const isAdmin = useAuth().session.role === "ADMIN";
   const [convocation, setConvocation] = useState(null);
   const [requirementTypes, setRequirementTypes] = useState({});
   const [error, setError] = useState(null);
@@ -108,7 +110,8 @@ const ConvocationDetail = ({ convocationId, onBack, onEdit, onDeleted }) => {
         </Space>
       }
     >
-      {CONVOCATION_ACTIONS_BY_STATE[convocation.state]?.length > 0 && (
+      {/* Editing and changing the state is for the administrator (#23); the api checks it again. */}
+      {isAdmin && CONVOCATION_ACTIONS_BY_STATE[convocation.state]?.length > 0 && (
         <div className="convocation-detail__actions">
           <ConvocationActions
             convocation={convocation}

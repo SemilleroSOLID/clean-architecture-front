@@ -40,6 +40,22 @@ body {
     color: rgb(0, 99, 186);
 }
 
+.layout-header__options a.active {
+    font-weight: bold;
+}
+
+/* Who is signed in and the button to sign out (#23) */
+.layout-header__user {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.layout-header__user-name {
+    font-weight: bold;
+}
+
 .layout-footer {
     background-color: #003B70;
     color: white;

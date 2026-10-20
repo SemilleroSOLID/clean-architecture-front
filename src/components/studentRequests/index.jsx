@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-import { Alert, Button, Card, Empty, Popconfirm, Select, Space, Table, Tag, message } from "antd";
+import { Alert, Button, Card, Popconfirm, Select, Space, Table, Tag, message } from "antd";
 import { ArrowLeftOutlined, PlusOutlined, RollbackOutlined } from "@ant-design/icons";
-import { getAllStudents } from "../../services/student.service";
-import { cancelRequest, getRequestsByStudent } from "../../services/request.service";
+import { cancelRequest, getMyRequests } from "../../services/request.service";
 import { REQUEST_STATE_COLORS, REQUEST_STATE_LABELS, UNDECIDED_REQUEST_STATES } from "../../constants/request.constant";
 import { CONVOCATION_TYPE_LABELS } from "../../constants/convocation.constant";
 import { LINKS } from "../../constants/links.constant";
@@ -34,27 +33,18 @@ const BASE_COLUMNS = [
   },
 ];
 
-// Student: history of every convocation applied to, with the state of each request (#18).
+// Student: history of every convocation applied to, with the state of each request (#18); the student is the one of the session (#23).
 const StudentRequests = () => {
-  const [students, setStudents] = useState([]);
-  const [studentId, setStudentId] = useState(undefined);
   const [requests, setRequests] = useState([]);
   const [sortBy, setSortBy] = useState(STUDENT_REQUESTS_SORT_OPTIONS[0].value);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [withdrawingId, setWithdrawingId] = useState(null);
   const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
-    getAllStudents()
-      .then(setStudents)
-      .catch((fetchError) => setError(fetchError.message));
-  }, []);
-
-  useEffect(() => {
-    if (studentId === undefined) return undefined;
     let ignore = false;
-    getRequestsByStudent(studentId)
+    getMyRequests()
       .then((data) => {
         if (ignore) return;
         setRequests(data);
@@ -65,18 +55,13 @@ const StudentRequests = () => {
     return () => {
       ignore = true;
     };
-  }, [studentId]);
-
-  const changeStudent = (id) => {
-    setLoading(true);
-    setStudentId(id);
-  };
+  }, []);
 
   // The student withdraws a request still in review (#19); the api checks it again.
   const withdraw = async (requestId) => {
     setWithdrawingId(requestId);
     try {
-      const updated = await cancelRequest(requestId, studentId);
+      const updated = await cancelRequest(requestId);
       setRequests((current) => current.map((request) => (request.id === updated.id ? updated : request)));
       messageApi.success("Retiraste tu solicitud: ya no se considera para la selección");
     } catch (withdrawError) {
@@ -130,18 +115,7 @@ const StudentRequests = () => {
         </Space>
       }
     >
-      <Alert type="info" showIcon title="Mientras no exista el inicio de sesión (#23), elija el estudiante." />
       <div className="request-admin__filters student-requests__toolbar">
-        <div className="request-select__control">
-          <label htmlFor="history-student">Estudiante</label>
-          <Select
-            id="history-student"
-            placeholder="Seleccione el estudiante"
-            value={studentId}
-            onChange={changeStudent}
-            options={students.map(({ id, name, program }) => ({ value: id, label: `${name} · ${program}` }))}
-          />
-        </div>
         <div className="request-select__control">
           <label htmlFor="history-sort">Ordenar por</label>
           <Select
@@ -154,19 +128,15 @@ const StudentRequests = () => {
       </div>
       {contextHolder}
       {error && <Alert className="request-review__error" type="error" showIcon title={error} />}
-      {studentId === undefined ? (
-        <Empty description="Elija un estudiante para ver sus solicitudes" />
-      ) : (
-        <Table
-          rowKey="id"
-          size="middle"
-          loading={loading}
-          columns={columns}
-          dataSource={sortedRequests}
-          pagination={{ pageSize: 10, hideOnSinglePage: true }}
-          locale={{ emptyText: "Todavía no te has postulado a ninguna convocatoria" }}
-        />
-      )}
+      <Table
+        rowKey="id"
+        size="middle"
+        loading={loading}
+        columns={columns}
+        dataSource={sortedRequests}
+        pagination={{ pageSize: 10, hideOnSinglePage: true }}
+        locale={{ emptyText: "Todavía no te has postulado a ninguna convocatoria" }}
+      />
     </Card>
   );
 };

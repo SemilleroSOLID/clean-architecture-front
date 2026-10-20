@@ -1,13 +1,16 @@
 import { useMemo, useState } from "react";
 import { CONVOCATION_TABS } from "../../schema/convocationTabs.schema";
 import Tabs from "../common/tabs";
+import { useAuth } from "../../hooks/useAuth";
 
 const Convocation = () => {
+  const { session } = useAuth();
   const [currentTab, setCurrentTab] = useState(0);
+  const tabs = useMemo(() => CONVOCATION_TABS.filter(({ roles }) => roles.includes(session.role)), [session.role]);
 
   const { component: Content, withContainer } = useMemo(
-    () => CONVOCATION_TABS[currentTab],
-    [currentTab]
+    () => tabs[currentTab],
+    [tabs, currentTab]
   );
 
   const wrapContent = withContainer ? (
@@ -23,7 +26,7 @@ const Convocation = () => {
       <div className="convocation-content">
         <Tabs
           title={"Convocatorias"}
-          items={CONVOCATION_TABS}
+          items={tabs}
           onChangeTab={setCurrentTab}
         />
       </div>

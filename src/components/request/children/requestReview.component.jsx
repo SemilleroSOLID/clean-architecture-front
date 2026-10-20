@@ -3,9 +3,9 @@ import { Alert, Descriptions } from "antd";
 import { attachmentField, describeCondition, valueField } from "../../../utils/request.util";
 
 // Step 3: what the student is about to send, so it can be corrected before confirming.
-const RequestReview = ({ student, convocation, values, error }) => {
+const RequestReview = ({ studentName, convocation, values, error }) => {
   const items = [
-    { key: "student", label: "Estudiante", span: 2, children: `${student.name} · ${student.program}` },
+    { key: "student", label: "Estudiante", span: 2, children: studentName },
     { key: "convocation", label: "Convocatoria", span: 2, children: convocation.title },
     ...convocation.convocationRequirements.flatMap((requirement) => [
       {
@@ -30,7 +30,7 @@ const RequestReview = ({ student, convocation, values, error }) => {
 };
 
 RequestReview.propTypes = {
-  student: PropTypes.object.isRequired,
+  studentName: PropTypes.string.isRequired,
   convocation: PropTypes.object.isRequired,
   values: PropTypes.object.isRequired,
   error: PropTypes.string,

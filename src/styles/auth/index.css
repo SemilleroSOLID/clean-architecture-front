@@ -1,0 +1,47 @@
+.login {
+    display: flex;
+    justify-content: center;
+    padding: 0 16px;
+}
+
+.login__card {
+    width: 100%;
+    max-width: 420px;
+}
+
+.login__alert {
+    margin-bottom: 1rem;
+}
+
+.login__dev {
+    margin-top: 1.5rem;
+}
+
+.login__dev ul {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+.home {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.home__title {
+    color: #003b70;
+}
+
+.home__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.home__cards a {
+    text-decoration: none;
+}
+
+.home__card {
+    height: 100%;
+}

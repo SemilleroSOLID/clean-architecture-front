@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Button, Card, Form, Popconfirm, Result, Spin, Steps, message } from "antd";
 import { ArrowLeftOutlined, EditOutlined, SendOutlined } from "@ant-design/icons";
 import { getAllConvocations } from "../../../services/convocation.service";
-import { getAllStudents } from "../../../services/student.service";
 import { createRequest } from "../../../services/request.service";
 import { buildRequestFormItems } from "../../../schema/createRequest.schema";
 import { REQUEST_STEPS } from "../../../constants/request.constant";
@@ -11,19 +10,19 @@ import CommonForm from "../../common/inputs/form.component";
 import SelectConvocation from "./selectConvocation.component";
 import RequestReview from "./requestReview.component";
 import RequestResult from "./requestResult.component";
+import { useAuth } from "../../../hooks/useAuth";
 
 const STEP = { SELECT: 0, REQUIREMENTS: 1, REVIEW: 2, RESULT: 3 };
 
-// CU-002: a student applies to an open convocation giving a value for each requirement.
+// CU-002: the student of the session applies to an open convocation giving a value for each requirement.
 const CreateRequest = () => {
+  const { session } = useAuth();
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
-  const [students, setStudents] = useState([]);
   const [convocations, setConvocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(null);
   const [step, setStep] = useState(STEP.SELECT);
-  const [studentId, setStudentId] = useState(undefined);
   const [convocationId, setConvocationId] = useState(undefined);
   const [values, setValues] = useState({});
   const [sending, setSending] = useState(false);
@@ -32,10 +31,9 @@ const CreateRequest = () => {
 
   useEffect(() => {
     let ignore = false;
-    Promise.all([getAllStudents(), getAllConvocations()])
-      .then(([studentList, convocationList]) => {
+    getAllConvocations()
+      .then((convocationList) => {
         if (ignore) return;
-        setStudents(studentList);
         setConvocations(convocationList.filter((convocation) => isReceivingRequests(convocation)));
       })
       .catch((error) => !ignore && setLoadError(error.message))
@@ -45,7 +43,6 @@ const CreateRequest = () => {
     };
   }, []);
 
-  const student = students.find(({ id }) => id === studentId);
   const convocation = convocations.find(({ id }) => id === convocationId);
   const requirements = useMemo(() => convocation?.convocationRequirements ?? [], [convocation]);
   const formItems = useMemo(() => buildRequestFormItems(requirements), [requirements]);
@@ -69,7 +66,7 @@ const CreateRequest = () => {
     setSending(true);
     setSubmitError(null);
     try {
-      const created = await createRequest(toRequestPayload({ studentId, convocationId }, requirements, values));
+      const created = await createRequest(toRequestPayload(convocationId, requirements, values));
       setResult(created);
       setStep(STEP.RESULT);
     } catch (error) {
@@ -84,7 +81,7 @@ const CreateRequest = () => {
     } finally {
       setSending(false);
     }
-  }, [messageApi, form, studentId, convocationId, requirements, values]);
+  }, [messageApi, form, convocationId, requirements, values]);
 
   const startOver = useCallback(() => {
     setStep(STEP.SELECT);
@@ -124,14 +121,7 @@ const CreateRequest = () => {
       />
 
       {step === STEP.SELECT && (
-        <SelectConvocation
-          students={students}
-          convocations={convocations}
-          studentId={studentId}
-          convocation={convocation}
-          onStudentChange={setStudentId}
-          onConvocationChange={changeConvocation}
-        />
+        <SelectConvocation convocations={convocations} convocation={convocation} onConvocationChange={changeConvocation} />
       )}
 
       {/* The form stays mounted while reviewing, so going back keeps what the student typed. */}
@@ -143,14 +133,14 @@ const CreateRequest = () => {
       )}
 
       {step === STEP.REVIEW && (
-        <RequestReview student={student} convocation={convocation} values={values} error={submitError} />
+        <RequestReview studentName={session.name} convocation={convocation} values={values} error={submitError} />
       )}
 
       {step === STEP.RESULT && <RequestResult result={result} onNewRequest={startOver} />}
 
       <div className="request__actions">
         {step === STEP.SELECT && (
-          <Button type="primary" disabled={!studentId || !convocation} onClick={() => setStep(STEP.REQUIREMENTS)}>
+          <Button type="primary" disabled={!convocation} onClick={() => setStep(STEP.REQUIREMENTS)}>
             Continuar
           </Button>
         )}

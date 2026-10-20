@@ -14,8 +14,8 @@ export const isReceivingRequests = ({ state, startDate, endDate }, today = dayjs
 export const describeCondition = ({ conditional, requiredValue }) =>
   `${CONDITION_LABELS[conditional] ?? conditional} ${requiredValue}`;
 
-export const toRequestPayload = ({ studentId, convocationId }, requirements, values) => ({
-  studentId,
+// The student is not sent: the api takes it from the token (#22).
+export const toRequestPayload = (convocationId, requirements, values) => ({
   convocationId,
   requirements: requirements.map(({ id }) => ({
     convocationRequirementId: id,

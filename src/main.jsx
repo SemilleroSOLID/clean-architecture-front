@@ -3,12 +3,13 @@ import ReactDOM from "react-dom/client";
 import "./styles/index.css";
 import { RouterProvider } from "react-router-dom";
 import router from "./routes/router";
-import ContentLayout from "./components/layout";
+import { setupAxios } from "./config/axios.config";
+
+// The token goes in every request and a 401 sends the user back to the login (#23).
+setupAxios();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ContentLayout>
-      <RouterProvider router={router} />
-    </ContentLayout>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );

@@ -28,23 +28,25 @@ Este repositorio es la interfaz del sistema. Consume la API REST de [clean-archi
 3. [Arquitectura del front](#arquitectura-del-front)
 4. [Estructura de carpetas](#estructura-de-carpetas)
 5. [Cómo fluye una acción](#cómo-fluye-una-acción)
-6. [Decisiones de diseño](#decisiones-de-diseño)
-7. [Estados de la convocatoria en la interfaz](#estados-de-la-convocatoria-en-la-interfaz)
-8. [Cómo ejecutarlo](#cómo-ejecutarlo)
-9. [Cómo agregar una pantalla](#cómo-agregar-una-pantalla)
-10. [Estado](#estado)
+6. [Sesión y rutas por rol](#sesión-y-rutas-por-rol)
+7. [Decisiones de diseño](#decisiones-de-diseño)
+8. [Estados de la convocatoria en la interfaz](#estados-de-la-convocatoria-en-la-interfaz)
+9. [Cómo ejecutarlo](#cómo-ejecutarlo)
+10. [Cómo agregar una pantalla](#cómo-agregar-una-pantalla)
+11. [Estado](#estado)
 
 ## Qué hace
 
-| Pantalla | Ruta | Qué permite |
-|---|---|---|
-| Inicio | `/` | Acceso a los módulos. |
-| Convocatorias · Consultar | `/convocation` | Ver las convocatorias como tarjetas, ordenarlas y filtrarlas por tipo y estado. Abrir el detalle con sus requisitos y, desde ahí, editar, eliminar, cerrar, reabrir, finalizar o cancelar según el estado. |
-| Convocatorias · Crear | `/convocation` (pestaña *Crear*) | Formulario con título, tipo, descripción, fechas y requisitos, validado antes de enviarlo y con confirmación del resultado. |
-| Convocatorias · Tipos | `/convocation` (pestaña *Tipos*) | Tipos de convocatoria disponibles. |
-| Solicitudes | `/request` | Formulario de postulación en cuatro pasos: elegir estudiante y convocatoria abierta (con su información y requisitos), ingresar un valor por requisito con adjunto opcional, revisar y corregir antes de confirmar, y ver el resultado de la verificación automática: activa, o pendiente con la lista de requisitos que no cumple ([#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15)). |
-| Mis solicitudes | `/my-requests` | Historial del estudiante: cada convocatoria a la que se postuló con su tipo, fechas y el estado de la solicitud, ordenable por fecha de postulación o por estado, y el motivo cuando fue rechazada. Tiene accesos para volver a las convocatorias o postularse ([#18](https://github.com/SemilleroSOLID/clean-architecture-api/issues/18)). Las solicitudes en revisión se pueden **retirar**, con confirmación ([#19](https://github.com/SemilleroSOLID/clean-architecture-api/issues/19)). |
-| Revisar solicitudes | `/admin/requests` | Sección del administrador: tabla con todas las solicitudes (estudiante, convocatoria, fecha y estado), filtros por convocatoria y estado, y el detalle de cada una con la verificación requisito por requisito ([#16](https://github.com/SemilleroSOLID/clean-architecture-api/issues/16)). Las pendientes se resaltan con los requisitos que no cumplen, y desde el detalle se aprueban o se rechazan con justificación obligatoria cuando la convocatoria está cerrada ([#17](https://github.com/SemilleroSOLID/clean-architecture-api/issues/17)). |
+| Pantalla | Ruta | Rol | Qué permite |
+|---|---|---|---|
+| Iniciar sesión | `/login` | Público | Correo y contraseña; es lo único que se ve sin sesión ([#23](https://github.com/SemilleroSOLID/clean-architecture-api/issues/23)). |
+| Inicio | `/` | Ambos | Saludo y accesos a lo que puede hacer el rol de la sesión. |
+| Convocatorias · Consultar | `/convocation` | Ambos | Ver las convocatorias como tarjetas, ordenarlas y filtrarlas por tipo y estado, y abrir el detalle con sus requisitos. El administrador, además, edita, elimina, cierra, reabre, finaliza o cancela según el estado. |
+| Convocatorias · Crear | `/convocation` (pestaña *Crear*) | Administrador | Formulario con título, tipo, descripción, fechas y requisitos, validado antes de enviarlo y con confirmación del resultado. |
+| Convocatorias · Tipos | `/convocation` (pestaña *Tipos*) | Ambos | Tipos de convocatoria disponibles. |
+| Postularme | `/request` | Estudiante | Formulario de postulación en cuatro pasos: elegir una convocatoria abierta (con su información y requisitos), ingresar un valor por requisito con adjunto opcional, revisar y corregir antes de confirmar, y ver el resultado de la verificación automática: activa, o pendiente con la lista de requisitos que no cumple ([#15](https://github.com/SemilleroSOLID/clean-architecture-api/issues/15)). |
+| Mis solicitudes | `/my-requests` | Estudiante | Historial del estudiante de la sesión: cada convocatoria a la que se postuló con su tipo, fechas y el estado de la solicitud, ordenable por fecha de postulación o por estado, y el motivo cuando fue rechazada. Tiene accesos para volver a las convocatorias o postularse ([#18](https://github.com/SemilleroSOLID/clean-architecture-api/issues/18)). Las solicitudes en revisión se pueden **retirar**, con confirmación ([#19](https://github.com/SemilleroSOLID/clean-architecture-api/issues/19)). |
+| Revisar solicitudes | `/admin/requests` | Administrador | Sección del administrador: tabla con todas las solicitudes (estudiante, convocatoria, fecha y estado), filtros por convocatoria y estado, y el detalle de cada una con la verificación requisito por requisito ([#16](https://github.com/SemilleroSOLID/clean-architecture-api/issues/16)). Las pendientes se resaltan con los requisitos que no cumplen, y desde el detalle se aprueban o se rechazan con justificación obligatoria cuando la convocatoria está cerrada ([#17](https://github.com/SemilleroSOLID/clean-architecture-api/issues/17)). |
 
 ## Tecnologías
 
@@ -76,7 +78,7 @@ flowchart TB
     end
     subgraph Data["Acceso a datos"]
         SV[services/<br/>una función por endpoint]
-        CF[config/<br/>rutas de la API]
+        CF[config/<br/>rutas de la API e<br/>interceptores con el token]
         U[utils/<br/>fechas, validaciones, getEndpoint]
     end
     C --> S
@@ -99,11 +101,13 @@ Es la misma idea de la regla de dependencias del backend aplicada a un front: la
 
 ```text
 src/
-├── main.jsx                    ← punto de entrada: layout + router
-├── routes/router.jsx           ← rutas de la aplicación
+├── main.jsx                    ← punto de entrada: interceptores de Axios + router
+├── routes/router.jsx           ← rutas, cada una protegida por rol
+├── context/, hooks/            ← AuthContext y useAuth (sesión)
 ├── components/
+│   ├── auth/                   ← login, AuthProvider y ProtectedRoute
 │   ├── common/                 ← CommonForm, InputWrapper, Tabs (reutilizables)
-│   ├── layout/                 ← encabezado, pie y contenedor
+│   ├── layout/                 ← encabezado (menú por rol y cerrar sesión), pie y contenedor
 │   ├── home/                   ← página de inicio
 │   ├── convocation/
 │   │   ├── index.jsx           ← página con pestañas Consultar / Crear / Tipos
@@ -115,9 +119,9 @@ src/
 │   └── studentRequests/        ← estudiante: historial de sus solicitudes
 ├── schema/                     ← formularios, pestañas y opciones de la lista como datos
 ├── constants/                  ← etiquetas y colores de estados y tipos, acciones por estado, rutas
-├── services/                   ← convocation, requirement, request y student
-├── config/                     ← host y endpoints de cada recurso de la API
-├── utils/                      ← fechas, validaciones, getEndpoint, toRequestError y utilidades de la solicitud
+├── services/                   ← auth, convocation, requirement y request
+├── config/                     ← host y endpoints de cada recurso de la API, e interceptores de Axios
+├── utils/                      ← sesión, fechas, validaciones, getEndpoint, toRequestError y utilidades de la solicitud
 └── styles/                     ← CSS por módulo
 ```
 
@@ -150,6 +154,43 @@ sequenceDiagram
         Act-->>Admin: Mensaje de error de la API
     end
 ```
+
+## Sesión y rutas por rol
+
+Desde [#23](https://github.com/SemilleroSOLID/clean-architecture-api/issues/23) todo el front pide iniciar sesión contra `POST /auth/login` del backend ([#22](https://github.com/SemilleroSOLID/clean-architecture-api/issues/22)).
+
+```mermaid
+flowchart LR
+    U([Usuario]) --> R{¿Hay sesión?}
+    R -- no --> L[/login/]
+    L -- "POST /auth/login" --> S[(localStorage<br/>token, rol, nombre,<br/>vencimiento)]
+    S --> R
+    R -- sí --> P{¿La página es<br/>para su rol?}
+    P -- sí --> V[Página]
+    P -- no --> F[403: No tiene permiso]
+    V -- "cada petición:<br/>Authorization: Bearer token" --> API[(API)]
+    API -- 401 --> X[Borra la sesión y vuelve al login:<br/>'Su sesión venció']
+```
+
+| Pieza | Archivo | Qué hace |
+|---|---|---|
+| `AuthProvider` + `useAuth` | `components/auth/authProvider.component.jsx`, `context/`, `hooks/` | Guarda la sesión, inicia y cierra sesión, y la cierra sola cuando llega la hora de vencimiento del token. |
+| `ProtectedRoute` | `components/auth/protectedRoute.component.jsx` | Sin sesión redirige al login; con un rol que no corresponde muestra *"No tiene permiso para ver esta página"*, aunque se escriba la URL a mano. |
+| Login | `components/auth/login/` | Correo y contraseña; muestra el error del API y por qué se volvió al login (sesión vencida o cerrada). En desarrollo muestra los usuarios de prueba. |
+| Interceptores de Axios | `config/axios.config.js` | Agregan el token a todas las peticiones y, ante un 401, borran la sesión y vuelven al login con el mensaje de sesión vencida. |
+| Sesión guardada | `utils/session.util.js` | Lee y escribe la sesión en `localStorage`, con cada acceso protegido por si el navegador lo bloquea. |
+| Roles por página | `constants/links.constant.js` | Cada enlace dice qué roles lo pueden abrir; el menú, el inicio y las rutas salen de ahí. |
+
+| Rol | Menú | No puede |
+|---|---|---|
+| Administrador | Convocatorias (con *Crear* y las acciones del detalle) y Revisar solicitudes | Postularse ni ver *Mis solicitudes*. |
+| Estudiante | Convocatorias (solo consulta), Postularme y Mis solicitudes | Crear, editar ni cambiar el estado de convocatorias, ni revisar solicitudes. |
+
+Ocultar un botón no es seguridad: el backend vuelve a revisar el rol y el dueño de cada solicitud en cada petición. El front solo evita mostrar lo que el usuario no puede usar.
+
+El estudiante ya no se elige en una lista: es el de la sesión. El formulario de postulación y *Mis solicitudes* no mandan su id; el backend lo toma del token.
+
+Usuarios de desarrollo: `admin@ucaldas.test` / `Admin2026*` y cada estudiante con su correo (por ejemplo `laura.gomez@ucaldas.test`) / `Estudiante2026*`.
 
 ## Decisiones de diseño
 
@@ -244,7 +285,7 @@ Así se construyó el formulario de postulación ([#15](https://github.com/Semil
 | Aprobar o rechazar solicitudes | ✅ [#17](https://github.com/SemilleroSOLID/clean-architecture-api/issues/17) |
 | Historial del estudiante | ✅ [#18](https://github.com/SemilleroSOLID/clean-architecture-api/issues/18) |
 | Retirar una solicitud | ✅ [#19](https://github.com/SemilleroSOLID/clean-architecture-api/issues/19) |
-| Login y rutas protegidas por rol | ⏳ [#23](https://github.com/SemilleroSOLID/clean-architecture-api/issues/23) |
+| Login y rutas protegidas por rol | ✅ [#23](https://github.com/SemilleroSOLID/clean-architecture-api/issues/23) |
 
 El backlog completo está en los [issues de clean-architecture-api](https://github.com/SemilleroSOLID/clean-architecture-api/issues).
 
