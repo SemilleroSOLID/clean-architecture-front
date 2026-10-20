@@ -140,6 +140,15 @@ const RequestDetail = ({ requestId, onBack }) => {
           description={request.comment}
         />
       )}
+      {request.state === "CANCELLED" && (
+        <Alert
+          className="request-review__error"
+          type="info"
+          showIcon
+          title="El estudiante retiró esta solicitud"
+          description="Ya no se considera para la selección y no se puede aprobar ni rechazar."
+        />
+      )}
       {request.state === "ACCEPT" && (
         <Alert className="request-review__error" type="success" showIcon title="La solicitud fue aprobada" />
       )}

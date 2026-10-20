@@ -11,6 +11,7 @@ export const REQUEST_STATE_LABELS = {
   ACTIVE: "Activa",
   REJECT: "Rechazada",
   ACCEPT: "Aprobada",
+  CANCELLED: "Retirada",
 };
 
 export const REQUEST_STATE_COLORS = {
@@ -18,6 +19,7 @@ export const REQUEST_STATE_COLORS = {
   ACTIVE: "green",
   REJECT: "red",
   ACCEPT: "blue",
+  CANCELLED: "default",
 };
 
 // States that still wait for the decision of the administrator (EnumStateRequest.UNDECIDED in the api).
@@ -26,4 +28,4 @@ export const UNDECIDED_REQUEST_STATES = ["PENDING", "ACTIVE"];
 export const REJECTION_COMMENT_MAX_LENGTH = 500;
 
 // Order of the states when the history is sorted by state: first the ones waiting for a decision.
-export const REQUEST_STATE_ORDER = ["PENDING", "ACTIVE", "ACCEPT", "REJECT"];
+export const REQUEST_STATE_ORDER = ["PENDING", "ACTIVE", "ACCEPT", "REJECT", "CANCELLED"];

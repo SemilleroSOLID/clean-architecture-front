@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import { Alert, Button, Card, Empty, Select, Space, Table, Tag } from "antd";
-import { ArrowLeftOutlined, PlusOutlined } from "@ant-design/icons";
+import { Alert, Button, Card, Empty, Popconfirm, Select, Space, Table, Tag, message } from "antd";
+import { ArrowLeftOutlined, PlusOutlined, RollbackOutlined } from "@ant-design/icons";
 import { getAllStudents } from "../../services/student.service";
-import { getRequestsByStudent } from "../../services/request.service";
-import { REQUEST_STATE_COLORS, REQUEST_STATE_LABELS } from "../../constants/request.constant";
+import { cancelRequest, getRequestsByStudent } from "../../services/request.service";
+import { REQUEST_STATE_COLORS, REQUEST_STATE_LABELS, UNDECIDED_REQUEST_STATES } from "../../constants/request.constant";
 import { CONVOCATION_TYPE_LABELS } from "../../constants/convocation.constant";
 import { LINKS } from "../../constants/links.constant";
 import { STUDENT_REQUESTS_SORT_OPTIONS } from "../../schema/studentRequests.schema";
 import { formatDate } from "../../utils/date.util";
 
-const COLUMNS = [
+const BASE_COLUMNS = [
   { title: "Convocatoria", dataIndex: "convocationTitle" },
   { title: "Tipo", dataIndex: "convocationType", render: (type) => CONVOCATION_TYPE_LABELS[type] ?? type },
   { title: "Inicio", dataIndex: "convocationStartDate", render: formatDate },
@@ -42,6 +42,8 @@ const StudentRequests = () => {
   const [sortBy, setSortBy] = useState(STUDENT_REQUESTS_SORT_OPTIONS[0].value);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [withdrawingId, setWithdrawingId] = useState(null);
+  const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
     getAllStudents()
@@ -69,6 +71,44 @@ const StudentRequests = () => {
     setLoading(true);
     setStudentId(id);
   };
+
+  // The student withdraws a request still in review (#19); the api checks it again.
+  const withdraw = async (requestId) => {
+    setWithdrawingId(requestId);
+    try {
+      const updated = await cancelRequest(requestId, studentId);
+      setRequests((current) => current.map((request) => (request.id === updated.id ? updated : request)));
+      messageApi.success("Retiraste tu solicitud: ya no se considera para la selección");
+    } catch (withdrawError) {
+      messageApi.error(withdrawError.message);
+    } finally {
+      setWithdrawingId(null);
+    }
+  };
+
+  const columns = [
+    ...BASE_COLUMNS,
+    {
+      title: "",
+      key: "actions",
+      align: "right",
+      render: (_, { id, state, convocationTitle }) =>
+        UNDECIDED_REQUEST_STATES.includes(state) && (
+          <Popconfirm
+            title="¿Retirar tu solicitud?"
+            description={`Ya no se considerará para "${convocationTitle}" y no podrás deshacerlo.`}
+            okText="Retirar"
+            okButtonProps={{ danger: true }}
+            cancelText="Cancelar"
+            onConfirm={() => withdraw(id)}
+          >
+            <Button size="small" danger icon={<RollbackOutlined />} loading={withdrawingId === id}>
+              Retirar
+            </Button>
+          </Popconfirm>
+        ),
+    },
+  ];
 
   const sortedRequests = useMemo(() => {
     const { compare } = STUDENT_REQUESTS_SORT_OPTIONS.find(({ value }) => value === sortBy);
@@ -112,6 +152,7 @@ const StudentRequests = () => {
           />
         </div>
       </div>
+      {contextHolder}
       {error && <Alert className="request-review__error" type="error" showIcon title={error} />}
       {studentId === undefined ? (
         <Empty description="Elija un estudiante para ver sus solicitudes" />
@@ -120,7 +161,7 @@ const StudentRequests = () => {
           rowKey="id"
           size="middle"
           loading={loading}
-          columns={COLUMNS}
+          columns={columns}
           dataSource={sortedRequests}
           pagination={{ pageSize: 10, hideOnSinglePage: true }}
           locale={{ emptyText: "Todavía no te has postulado a ninguna convocatoria" }}

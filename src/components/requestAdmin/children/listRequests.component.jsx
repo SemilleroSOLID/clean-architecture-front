@@ -55,8 +55,8 @@ const ListRequests = ({ onSelect }) => {
     {
       title: "Requisitos no cumplidos",
       dataIndex: "unmetRequirements",
-      render: (unmet) =>
-        unmet.length === 0
+      render: (unmet, { state }) =>
+        unmet.length === 0 || state === "CANCELLED"
           ? "-"
           : unmet.map((name) => (
               <Tag key={name} color="red">

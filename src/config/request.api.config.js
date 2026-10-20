@@ -7,5 +7,6 @@ export const requestConfig = {
     getRequestsByStudent: "/getRequestsByStudent",
     approveRequest: "/approveRequest",
     rejectRequest: "/rejectRequest",
+    cancelRequest: "/cancelRequest",
   },
 };

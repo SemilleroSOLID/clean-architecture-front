@@ -61,3 +61,13 @@ export const getRequestsByStudent = async (studentId) => {
     throw toRequestError(error, "No se pudieron cargar las solicitudes");
   }
 };
+
+// The student withdraws one of his requests still in review (#19); returns the updated row of the history.
+export const cancelRequest = async (requestId, studentId) => {
+  try {
+    const response = await axios.put(`${getEndpoint(requestConfig, "cancelRequest")}/${requestId}`, { studentId });
+    return response.data.data;
+  } catch (error) {
+    throw toRequestError(error, "No se pudo retirar la solicitud");
+  }
+};
