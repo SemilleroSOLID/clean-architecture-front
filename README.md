@@ -35,7 +35,7 @@ Este repositorio es la interfaz del sistema. Consume la API REST de [clean-archi
 8. [Estados de la convocatoria en la interfaz](#estados-de-la-convocatoria-en-la-interfaz)
 9. [Cómo ejecutarlo](#cómo-ejecutarlo)
 10. [Cómo agregar una pantalla](#cómo-agregar-una-pantalla)
-11. [Lo que no conviene copiar](#lo-que-no-conviene-copiar)
+11. [Patrones de diseño del front](#patrones-de-diseño-del-front)
 
 ## Qué hace
 
@@ -279,16 +279,29 @@ Así se construyó el formulario de postulación, y es el mismo camino para cual
 4. **components/request/children/** · `createRequest` coordina los pasos y usa `CommonForm`, el esquema y el servicio; cada paso es un componente pequeño (`selectConvocation`, `requestReview`, `requestResult`).
 5. **routes/** y **constants/links.constant.js** · solo si la pantalla necesita una ruta nueva.
 
-## Lo que no conviene copiar
+## Patrones de diseño del front
 
-Algunas decisiones del front son atajos aceptados para mantener el proyecto simple. Están explicadas con los demás antipatrones del sistema en el [README del API](https://github.com/SemilleroSOLID/clean-architecture-api#antipatrones-dónde-cómo-y-por-qué); las que tocan este repositorio:
+Los patrones del backend (State, Factory, Repository...) están explicados en el [README del API](https://github.com/SemilleroSOLID/clean-architecture-api#patrones-de-diseño-implementados). En el front se usan estos:
 
-| Qué | Por qué está así | Qué sería lo correcto |
+| Patrón | Dónde | Qué resuelve |
 |---|---|---|
-| El token se guarda en `localStorage` (`utils/session.util.js`) | Es la forma más simple de que la sesión sobreviva al recargar con un JWT sin sesión en el servidor. | Una cookie `HttpOnly` emitida por el backend, para que un script inyectado (XSS) no pueda leer el token. |
-| Las rutas del API tienen verbos (`/getAllConvocations`, `/createConvocation`) | El front se construyó sobre la API original; cambiarlas obligaba a cambiar los dos lados a la vez. | Rutas REST (`GET /convocations`) en el API y en `config/`. |
-| La dirección del API queda fija en el build (`VITE_API_HOST`) | Vite reemplaza las variables `VITE_*` al compilar, así que la imagen sirve archivos estáticos. | Para otro servidor hay que reconstruir la imagen con otro `VITE_API_HOST`, o leer la dirección de un archivo de configuración al cargar la página. |
-| Algunas reglas se validan en el front y en el API | Es duplicación **a propósito**: el front avisa de inmediato y el API tiene la última palabra. | Mantenerla, pero sin agregar reglas que existan solo en el front. |
+| **Provider** (React Context) | `components/auth/authProvider.component.jsx`, `context/auth.context.js`, `hooks/useAuth.js` | Compartir la sesión con todas las pantallas sin pasarla de componente en componente. Cualquier componente la lee con `useAuth()`. |
+| **Guardia de rutas** (componente envoltorio) | `components/auth/protectedRoute.component.jsx` | Envolver cada página para decidir si se muestra: sin sesión redirige al login y con otro rol muestra *"No tiene permiso"*. Las páginas no repiten esa lógica. |
+| **Interceptor** | `config/axios.config.js` | Agregar el token a todas las peticiones y reaccionar a un 401 en un solo lugar, en vez de hacerlo en cada servicio. |
+| **Configuración como datos** | `schema/` y `constants/` | Describir formularios, pestañas, menús y botones por estado como datos; los componentes los recorren. Agregar un campo o una pestaña es agregar un objeto. |
+| **Separación de responsabilidades por capas** | `components/` → `services/` → `config/` | La vista no conoce Axios ni las URL; los servicios no conocen los componentes. Es la misma idea de la regla de dependencias del backend. |
+
+Un ejemplo de **configuración como datos**: las acciones que muestra el detalle de una convocatoria salen de una constante, no de `if` en el componente.
+
+```js
+// constants/convocation.constant.js
+export const CONVOCATION_ACTIONS_BY_STATE = {
+  OPEN: ["edit", "close", "cancel", "delete"],
+  CLOSED: ["reopen", "finish", "cancel"],
+  FINISHED: [],
+  CANCELLED: [],
+};
+```
 
 Todas las issues del sistema están en [clean-architecture-api](https://github.com/SemilleroSOLID/clean-architecture-api/issues).
 
