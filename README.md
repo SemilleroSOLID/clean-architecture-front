@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/SemilleroSOLID/clean-architecture-front/actions/workflows/ci.yml"><img src="https://github.com/SemilleroSOLID/clean-architecture-front/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI" /></a>
   <img src="https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React 18" />
   <img src="https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite 8" />
   <img src="https://img.shields.io/badge/Ant%20Design-6-0170FE?style=for-the-badge&logo=antdesign&logoColor=white" alt="Ant Design 6" />

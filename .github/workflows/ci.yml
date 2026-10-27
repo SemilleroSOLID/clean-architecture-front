@@ -1,0 +1,26 @@
+# Continuous integration (SemilleroSOLID/clean-architecture-api#26): every push to main installs, lints,
+# builds and builds the Docker image. A commit that breaks the lint or the build leaves the workflow in red.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    name: Lint and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+      # The same image docker compose of the api builds (nginx serving dist)
+      - name: Build the Docker image
+        run: docker build -t clean-architecture-front .
